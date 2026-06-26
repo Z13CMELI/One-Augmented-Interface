@@ -73,11 +73,11 @@ const TRANSLATIONS = {
     app_name: "One Augmented Interface",
     choose_lang_title: "Choisissez votre langue",
     nav_home: "Home",
-    nav_season_planning: "Prepare Season",
-    nav_forecast_piloting: "Pilot Season",
+    nav_season_planning: "Plan",
+    nav_forecast_piloting: "Monitor",
     nav_replenishment: "Fine-tune",
     nav_shortage: "Shortage",
-    nav_close_season: "Close Season",
+    nav_close_season: "Wrap up",
     nav_control_tower: "Control Tower",
     nav_explorer: "Explorer",
     explore_empty_title: "Définissez votre périmètre d'analyse",
@@ -529,11 +529,11 @@ const TRANSLATIONS = {
     app_name: "One Augmented Interface",
     choose_lang_title: "Choose your language",
     nav_home: "Home",
-    nav_season_planning: "Prepare Season",
-    nav_forecast_piloting: "Pilot Season",
+    nav_season_planning: "Plan",
+    nav_forecast_piloting: "Monitor",
     nav_replenishment: "Fine-tune",
     nav_shortage: "Shortage",
-    nav_close_season: "Close Season",
+    nav_close_season: "Wrap up",
     nav_control_tower: "Control Tower",
     nav_explorer: "Explorer",
     explore_empty_title: "Define your analysis scope",
@@ -1074,6 +1074,9 @@ const Icon = ({ name, size = 16, color = "currentColor", sw = 1.6 }) => {
         share: <><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round"/><polyline points="16 6 12 2 8 6" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round"/><line x1="12" y1="2" x2="12" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
         adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
         flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
+        clipboard: <><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke={color} strokeWidth={sw} fill="none"/><rect x="8" y="2" width="8" height="4" rx="1" stroke={color} strokeWidth={sw} fill="none"/></>,
+        activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round"/>,
+        archive: <><polyline points="21 8 21 21 3 21 3 8" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><rect x="1" y="3" width="22" height="5" rx="1" stroke={color} strokeWidth={sw} fill="none"/><line x1="10" y1="12" x2="14" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
         settings: <><circle cx="12" cy="12" r="3" stroke={color} strokeWidth={sw} fill="none" /><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 7a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9 4.6a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z" stroke={color} strokeWidth={sw} fill="none" /></>,
     }[name];
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
@@ -1480,10 +1483,10 @@ function TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlann
                 <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
                 {[
                     ["home", _t(lang, "nav_home"), true, onGoHome],
-                    ["calendar", _t(lang, "nav_season_planning"), false, onSeasonPlanning],
-                    ["chart", _t(lang, "nav_forecast_piloting"), false, onGoToCockpit],
+                    ["clipboard", _t(lang, "nav_season_planning"), false, onSeasonPlanning],
+                    ["activity", _t(lang, "nav_forecast_piloting"), false, onGoToCockpit],
                     ["adjust", _t(lang, "nav_replenishment"), false, onReplenishment],
-                    ["flag", _t(lang, "nav_close_season"), false, onCloseSeason],
+                    ["archive", _t(lang, "nav_close_season"), false, onCloseSeason],
                 ].map(([ic, lb, act, fn]) => (
                     <button key={lb} onClick={fn || undefined} style={{
                         display: "flex", alignItems: "center", gap: 6, padding: "5px 10px", borderRadius: 8,
@@ -2976,6 +2979,9 @@ const FPC_Icon = ({ name, size = 16, color = "currentColor", sw = 1.6 }) => {
     clock: <><circle cx="12" cy="12" r="9" stroke={color} strokeWidth={sw} fill="none" /><polyline points="12 7 12 12 15 15" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" /></>,
     adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
     flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
+        clipboard: <><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke={color} strokeWidth={sw} fill="none"/><rect x="8" y="2" width="8" height="4" rx="1" stroke={color} strokeWidth={sw} fill="none"/></>,
+        activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round"/>,
+        archive: <><polyline points="21 8 21 21 3 21 3 8" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><rect x="1" y="3" width="22" height="5" rx="1" stroke={color} strokeWidth={sw} fill="none"/><line x1="10" y1="12" x2="14" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
     }[name];
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
 };
@@ -3785,10 +3791,10 @@ function FPC_TopRibbon({ persona, setPersona, onGoHome, onPiloting, onSeasonPlan
             <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
             {[
                 ["home", _t(lang, "nav_home"), false, onGoHome],
-                ["calendar", _t(lang, "nav_season_planning"), false, onSeasonPlanning],
-                ["chart", _t(lang, "nav_forecast_piloting"), true, onPiloting],
+                ["clipboard", _t(lang, "nav_season_planning"), false, onSeasonPlanning],
+                ["activity", _t(lang, "nav_forecast_piloting"), true, onPiloting],
                 ["adjust", _t(lang, "nav_replenishment"), false, onReplenishment],
-                ["flag", _t(lang, "nav_close_season"), false, onCloseSeason],
+                ["archive", _t(lang, "nav_close_season"), false, onCloseSeason],
             ].map(([ic, lb, act, fn]) => (
                 <button key={lb} onClick={fn || undefined}
                     style={{
@@ -6592,6 +6598,9 @@ const SeasonPlanningPage_Icon = ({ name, size = 16, color = "currentColor", sw =
         zap: <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" />,
         adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
         flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
+        clipboard: <><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke={color} strokeWidth={sw} fill="none"/><rect x="8" y="2" width="8" height="4" rx="1" stroke={color} strokeWidth={sw} fill="none"/></>,
+        activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round"/>,
+        archive: <><polyline points="21 8 21 21 3 21 3 8" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><rect x="1" y="3" width="22" height="5" rx="1" stroke={color} strokeWidth={sw} fill="none"/><line x1="10" y1="12" x2="14" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
         calendar: <><rect x="3" y="4" width="18" height="18" rx="2" stroke={color} strokeWidth={sw} fill="none" /><line x1="3" y1="9" x2="21" y2="9" stroke={color} strokeWidth={sw} /><line x1="8" y1="2" x2="8" y2="6" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="16" y1="2" x2="16" y2="6" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
         chevR: <polyline points="9 18 15 12 9 6" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" />,
         chevD: <polyline points="6 9 12 15 18 9" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" />,
@@ -6640,10 +6649,10 @@ function SeasonPlanningPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCoc
             <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
             {[
                 ["home", "Home", false, onGoHome],
-                ["calendar", "Prepare Season", true, null],
-                ["chart", "Pilot Season", false, onGoToCockpit],
+                ["clipboard", "Plan", true, null],
+                ["activity", "Monitor", false, onGoToCockpit],
                 ["adjust", "Fine-tune", false, onReplenishment],
-                ["flag", "Close Season", false, onCloseSeason],
+                ["archive", "Wrap up", false, onCloseSeason],
             ].map(([ic, lb, act, fn]) => (
                 <button key={lb} onClick={fn || undefined}
                     style={{
@@ -6901,6 +6910,9 @@ const ReplenishmentPage_Icon = ({ name, size = 16, color = "currentColor", sw = 
         layers: <><polygon points="12 2 2 7 12 12 22 7 12 2" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" /><polyline points="2 17 12 22 22 17" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" /><polyline points="2 12 12 17 22 12" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" /></>,
         adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
         flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
+        clipboard: <><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke={color} strokeWidth={sw} fill="none"/><rect x="8" y="2" width="8" height="4" rx="1" stroke={color} strokeWidth={sw} fill="none"/></>,
+        activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round"/>,
+        archive: <><polyline points="21 8 21 21 3 21 3 8" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><rect x="1" y="3" width="22" height="5" rx="1" stroke={color} strokeWidth={sw} fill="none"/><line x1="10" y1="12" x2="14" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
     }[name];
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
 };
@@ -6938,10 +6950,10 @@ function ReplenishmentPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCock
             <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
             {[
                 ["home", "Home", false, onGoHome],
-                ["calendar", "Prepare Season", false, onSeasonPlanning],
-                ["chart", "Pilot Season", false, onGoToCockpit],
+                ["clipboard", "Plan", false, onSeasonPlanning],
+                ["activity", "Monitor", false, onGoToCockpit],
                 ["adjust", "Fine-tune", true, null],
-                ["flag", "Close Season", false, onCloseSeason],
+                ["archive", "Wrap up", false, onCloseSeason],
             ].map(([ic, lb, act, fn]) => (
                 <button key={lb} onClick={fn || undefined}
                     style={{
@@ -7233,6 +7245,9 @@ const ShortageAlertPage_Icon = ({ name, size = 16, color = "currentColor", sw = 
         x: <><line x1="18" y1="6" x2="6" y2="18" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="6" y1="6" x2="18" y2="18" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
         adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
         flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
+        clipboard: <><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke={color} strokeWidth={sw} fill="none"/><rect x="8" y="2" width="8" height="4" rx="1" stroke={color} strokeWidth={sw} fill="none"/></>,
+        activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round"/>,
+        archive: <><polyline points="21 8 21 21 3 21 3 8" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><rect x="1" y="3" width="22" height="5" rx="1" stroke={color} strokeWidth={sw} fill="none"/><line x1="10" y1="12" x2="14" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
     }[name];
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
 };
@@ -7276,10 +7291,10 @@ function ShortageAlertPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCock
             <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
             {[
                 ["home", "Home", false, onGoHome],
-                ["calendar", "Prepare Season", false, onSeasonPlanning],
-                ["chart", "Pilot Season", false, onGoToCockpit],
+                ["clipboard", "Plan", false, onSeasonPlanning],
+                ["activity", "Monitor", false, onGoToCockpit],
                 ["adjust", "Fine-tune", true, null],
-                ["flag", "Close Season", false, onCloseSeason],
+                ["archive", "Wrap up", false, onCloseSeason],
             ].map(([ic, lb, act, fn]) => (
                 <button key={lb} onClick={fn || undefined}
                     style={{
@@ -7644,6 +7659,9 @@ const CT_Icon = ({ name, size = 16, color = "currentColor", sw = 1.6 }) => {
         close: <><line x1="18" y1="6" x2="6" y2="18" stroke={color} strokeWidth={sw} strokeLinecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
         adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round"/><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round"/><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round"/><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round"/><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round"/><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round"/><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round"/><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round"/><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
         flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
+        clipboard: <><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke={color} strokeWidth={sw} fill="none"/><rect x="8" y="2" width="8" height="4" rx="1" stroke={color} strokeWidth={sw} fill="none"/></>,
+        activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round"/>,
+        archive: <><polyline points="21 8 21 21 3 21 3 8" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><rect x="1" y="3" width="22" height="5" rx="1" stroke={color} strokeWidth={sw} fill="none"/><line x1="10" y1="12" x2="14" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
     }[name];
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
 };
@@ -7697,10 +7715,10 @@ function CT_PersonaDropdown({ persona, setPersona, lang }) {
 function CT_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onShortage, onCloseSeason, onOpenNotif, notifUnread = 0, onOpenSettings, lang }) {
     const NAV = [
         ["home", _t(lang, "nav_home"), false, onGoHome],
-        ["calendar", _t(lang, "nav_season_planning"), false, onSeasonPlanning],
-        ["chart", _t(lang, "nav_forecast_piloting"), false, onGoToCockpit],
+        ["clipboard", _t(lang, "nav_season_planning"), false, onSeasonPlanning],
+        ["activity", _t(lang, "nav_forecast_piloting"), false, onGoToCockpit],
         ["adjust", _t(lang, "nav_replenishment"), false, onReplenishment],
-        ["flag", _t(lang, "nav_close_season"), false, onCloseSeason],
+        ["archive", _t(lang, "nav_close_season"), false, onCloseSeason],
     ];
     return (
         <div style={{ flexShrink: 0, height: 44, background: CT_V.brand, display: "flex", alignItems: "center", padding: "0 16px", gap: 14, fontFamily: CT_FONT }}>
@@ -8046,6 +8064,9 @@ const CloseSeasonPage_Icon = ({ name, size = 16, color = "currentColor", sw = 1.
         sparkle: <><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6L12 2z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" /></>,
         adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
         flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
+        clipboard: <><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke={color} strokeWidth={sw} fill="none"/><rect x="8" y="2" width="8" height="4" rx="1" stroke={color} strokeWidth={sw} fill="none"/></>,
+        activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round"/>,
+        archive: <><polyline points="21 8 21 21 3 21 3 8" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><rect x="1" y="3" width="22" height="5" rx="1" stroke={color} strokeWidth={sw} fill="none"/><line x1="10" y1="12" x2="14" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
     }[name];
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
 };
@@ -8062,10 +8083,10 @@ function CloseSeasonPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpi
             <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
             {[
                 ["home", "Home", false, onGoHome],
-                ["calendar", "Prepare Season", false, onSeasonPlanning],
-                ["chart", "Pilot Season", false, onGoToCockpit],
+                ["clipboard", "Plan", false, onSeasonPlanning],
+                ["activity", "Monitor", false, onGoToCockpit],
                 ["adjust", "Fine-tune", false, onReplenishment],
-                ["flag", "Close Season", true, null],
+                ["archive", "Wrap up", true, null],
             ].map(([ic, lb, act, fn]) => (
                 <button key={lb} onClick={fn || undefined}
                     style={{
