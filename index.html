@@ -70,13 +70,14 @@ const { motion, AnimatePresence, useAnimation, useSpring, useMotionValue, useTra
 
 const TRANSLATIONS = {
   fr: {
-    app_name: "One Forecast Tool",
+    app_name: "One Augmented Interface",
     choose_lang_title: "Choisissez votre langue",
     nav_home: "Home",
-    nav_season_planning: "Season Planning",
-    nav_forecast_piloting: "Forecast Piloting",
-    nav_replenishment: "Replenishment",
+    nav_season_planning: "Prepare Season",
+    nav_forecast_piloting: "Pilot Season",
+    nav_replenishment: "Fine-tune",
     nav_shortage: "Shortage",
+    nav_close_season: "Close Season",
     nav_control_tower: "Control Tower",
     nav_explorer: "Explorer",
     explore_empty_title: "Définissez votre périmètre d'analyse",
@@ -151,7 +152,7 @@ const TRANSLATIONS = {
     wip_suffix: "— en construction",
     wip_subtitle: "Cette page est hors scope pour ce test utilisateur. Mais nous sommes curieux de savoir ce que vous imaginez ici.",
     wip_question: "💬 Que vous attendriez-vous à trouver sur cette page ? Qu'est-ce qui vous serait utile ?",
-    nav_transition_title: "Ouverture du Forecast Piloting",
+    nav_transition_title: "Ouverture du Pilot Season",
     filter_label_views: "Vue",
     filter_label_zone: "Zone supply",
     filter_label_family: "Famille",
@@ -399,7 +400,7 @@ const TRANSLATIONS = {
     tour_flow_persona_desc: "Comprendre l'adaptation de l'interface selon le rôle",
     tour_steps_suffix: "étapes",
     btn_close_tour: "Fermer la visite guidée",
-    page_season_planning: "Season Planning",
+    page_season_planning: "Prepare Season",
     season_active_label: "Saison active :",
     section_construction_by_family: "Construction par famille",
     kpi_budget_allocated: "Budget alloué",
@@ -415,7 +416,8 @@ const TRANSLATIONS = {
     status_in_review: "En revue",
     status_building: "En construction",
     season_card_budget_label: "Budget :",
-    page_replenishment: "Replenishment",
+    page_replenishment: "Fine-tune",
+    page_close_season: "Close Season",
     kpi_active_orders: "Ordres actifs",
     kpi_in_transit: "En transit",
     kpi_late: "En retard",
@@ -514,9 +516,9 @@ const TRANSLATIONS = {
     kanban_col_critical: "Critique / Élevé",
     kanban_col_medium: "Modéré",
     kanban_col_low: "Faible",
-    upcoming_season: "Season Planning",
+    upcoming_season: "Prepare Season",
     upcoming_season_desc: "Pilotage des saisons à venir",
-    upcoming_replenishment: "Replenishment",
+    upcoming_replenishment: "Fine-tune",
     upcoming_replenishment_desc: "Suivi des commandes fournisseurs",
     upcoming_shortage: "Shortage Alerts",
     upcoming_shortage_desc: "Alertes de rupture en temps réel",
@@ -524,13 +526,14 @@ const TRANSLATIONS = {
   },
 
   en: {
-    app_name: "One Forecast Tool",
+    app_name: "One Augmented Interface",
     choose_lang_title: "Choose your language",
     nav_home: "Home",
-    nav_season_planning: "Season Planning",
-    nav_forecast_piloting: "Forecast Piloting",
-    nav_replenishment: "Replenishment",
+    nav_season_planning: "Prepare Season",
+    nav_forecast_piloting: "Pilot Season",
+    nav_replenishment: "Fine-tune",
     nav_shortage: "Shortage",
+    nav_close_season: "Close Season",
     nav_control_tower: "Control Tower",
     nav_explorer: "Explorer",
     explore_empty_title: "Define your analysis scope",
@@ -605,7 +608,7 @@ const TRANSLATIONS = {
     wip_suffix: "— under construction",
     wip_subtitle: "This page is out of scope for this user test. But we're curious to hear what you imagine here.",
     wip_question: "💬 What would you expect to find on this page? What would be useful?",
-    nav_transition_title: "Opening Forecast Piloting",
+    nav_transition_title: "Opening Pilot Season",
     filter_label_views: "View",
     filter_label_zone: "Supply zone",
     filter_label_family: "Family",
@@ -853,7 +856,7 @@ const TRANSLATIONS = {
     tour_flow_persona_desc: "Understanding interface adaptation by role",
     tour_steps_suffix: "steps",
     btn_close_tour: "Close guided tour",
-    page_season_planning: "Season Planning",
+    page_season_planning: "Prepare Season",
     season_active_label: "Active season:",
     section_construction_by_family: "Construction by family",
     kpi_budget_allocated: "Allocated budget",
@@ -869,7 +872,8 @@ const TRANSLATIONS = {
     status_in_review: "In review",
     status_building: "Under construction",
     season_card_budget_label: "Budget:",
-    page_replenishment: "Replenishment",
+    page_replenishment: "Fine-tune",
+    page_close_season: "Close Season",
     kpi_active_orders: "Active orders",
     kpi_in_transit: "In transit",
     kpi_late: "Late",
@@ -968,9 +972,9 @@ const TRANSLATIONS = {
     kanban_col_critical: "Critical / High",
     kanban_col_medium: "Medium",
     kanban_col_low: "Low",
-    upcoming_season: "Season Planning",
+    upcoming_season: "Prepare Season",
     upcoming_season_desc: "Seasonal planning & buy management",
-    upcoming_replenishment: "Replenishment",
+    upcoming_replenishment: "Fine-tune",
     upcoming_replenishment_desc: "Supplier order tracking",
     upcoming_shortage: "Shortage Alerts",
     upcoming_shortage_desc: "Real-time shortage detection",
@@ -982,7 +986,6 @@ function _t(lang, key) {
   const dict = TRANSLATIONS[lang] || TRANSLATIONS.fr;
   return dict[key] !== undefined ? dict[key] : (TRANSLATIONS.fr[key] !== undefined ? TRANSLATIONS.fr[key] : key);
 }
-
 
 // ===== dmi_catalog.jsx =====
 /* ════════════════════════════════════════════════════════════════════════
@@ -1465,7 +1468,7 @@ function NotificationPanel({ onClose, onTreatAlert, lang }) {
 
 /* ──────────────────────────────────────────────────────────────────────────── */
 
-function TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onShortage, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
+function TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onShortage, onCloseSeason, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
     const cur = PERSONAS.find(p => p.id === persona);
     return (
         <div style={{ flexShrink: 0, fontFamily: FONT }}>
@@ -1480,7 +1483,7 @@ function TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlann
                     ["calendar", _t(lang, "nav_season_planning"), false, onSeasonPlanning],
                     ["chart", _t(lang, "nav_forecast_piloting"), false, onGoToCockpit],
                     ["adjust", _t(lang, "nav_replenishment"), false, onReplenishment],
-                    ["flag", _t(lang, "nav_close_season"), false, null],
+                    ["flag", _t(lang, "nav_close_season"), false, onCloseSeason],
                 ].map(([ic, lb, act, fn]) => (
                     <button key={lb} onClick={fn || undefined} style={{
                         display: "flex", alignItems: "center", gap: 6, padding: "5px 10px", borderRadius: 8,
@@ -1773,7 +1776,7 @@ const Card = ({ title, icon, action, onAction, children, style }) => (
 /* ════════════════════════════════════════════════════════════════════════
    HOME
    ════════════════════════════════════════════════════════════════════════ */
-function OneInterfaceHome({ onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onShortage, persona, setPersona, onOpenSettings, onStartTour, lang }) {
+function OneInterfaceHome({ onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onShortage, onCloseSeason, persona, setPersona, onOpenSettings, onStartTour, lang }) {
     const [navigating, setNavigating] = useState(null);
     const [notifOpen, setNotifOpen] = useState(false);
     const [sortBy, setSortBy] = useState("notif");
@@ -1812,7 +1815,7 @@ function OneInterfaceHome({ onGoHome, onGoToCockpit, onSeasonPlanning, onRepleni
                 )}
             </AnimatePresence>
 
-            <TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onGoToCockpit={() => goCockpit(null)} onSeasonPlanning={onSeasonPlanning} onReplenishment={onReplenishment} onShortage={onShortage} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={NOTIF_UNREAD_COUNT} onOpenSettings={onOpenSettings} onStartTour={onStartTour} lang={lang} />
+            <TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onGoToCockpit={() => goCockpit(null)} onSeasonPlanning={onSeasonPlanning} onReplenishment={onReplenishment} onShortage={onShortage} onCloseSeason={onCloseSeason} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={NOTIF_UNREAD_COUNT} onOpenSettings={onOpenSettings} onStartTour={onStartTour} lang={lang} />
             <AnimatePresence>
                 {notifOpen && <NotificationPanel onClose={() => setNotifOpen(false)} onTreatAlert={(alertId) => { onGoToCockpit && onGoToCockpit({ id: alertId }); setNotifOpen(false); }} lang={lang} />}
             </AnimatePresence>
@@ -2533,11 +2536,8 @@ function TourMenu({ onStart, onClose }) {
 
 
 // ===== ForecastPilotingCockpit.jsx =====
-
-
-
 /* ════════════════════════════════════════════════════════════════════════
-   One Forecast Tool — Forecast Piloting
+   One Augmented Interface — Forecast Piloting
    - Barre d'action : dropdowns recherchables (états vides / ouverts /
      sélection simple & multiple), Saved Views (avec enregistrement de vue),
      Time Period (presets + calendrier).
@@ -2975,6 +2975,7 @@ const FPC_Icon = ({ name, size = 16, color = "currentColor", sw = 1.6 }) => {
     userCheck: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke={color} strokeWidth={sw} fill="none" /><circle cx="9" cy="7" r="4" stroke={color} strokeWidth={sw} fill="none" /><polyline points="16 11 18 13 22 9" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" /></>,
     clock: <><circle cx="12" cy="12" r="9" stroke={color} strokeWidth={sw} fill="none" /><polyline points="12 7 12 12 15 15" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" /></>,
     adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
+    flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
     }[name];
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
 };
@@ -3774,20 +3775,20 @@ function ExternalFactorsPanel({ lang }) {
 }
 
 /* ─── ZONE 1 · barre de marque (nav) ─────────────────────────────────────── */
-function FPC_TopRibbon({ persona, setPersona, onGoHome, onPiloting, onSeasonPlanning, onReplenishment, onShortage, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
+function FPC_TopRibbon({ persona, setPersona, onGoHome, onPiloting, onSeasonPlanning, onReplenishment, onShortage, onCloseSeason, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
     return (
         <div style={{ flexShrink: 0, fontFamily: FPC_FONT, height: 44, background: FPC_V.brand, display: "flex", alignItems: "center", padding: "0 16px", gap: 14 }}>
             <button onClick={onGoHome} style={{ display: "flex", alignItems: "center", gap: 9, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                 <DecathlonMark size={22} />
-                <span style={{ fontSize: 14, fontWeight: 800, color: FPC_V.white, letterSpacing: "-0.01em" }}>One Forecast Tool</span>
+                <span style={{ fontSize: 14, fontWeight: 800, color: FPC_V.white, letterSpacing: "-0.01em" }}>One Augmented Interface</span>
             </button>
             <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
             {[
                 ["home", _t(lang, "nav_home"), false, onGoHome],
                 ["calendar", _t(lang, "nav_season_planning"), false, onSeasonPlanning],
                 ["chart", _t(lang, "nav_forecast_piloting"), true, onPiloting],
-                ["box", _t(lang, "nav_replenishment"), false, onReplenishment],
-                ["zap", _t(lang, "nav_shortage"), false, onShortage],
+                ["adjust", _t(lang, "nav_replenishment"), false, onReplenishment],
+                ["flag", _t(lang, "nav_close_season"), false, onCloseSeason],
             ].map(([ic, lb, act, fn]) => (
                 <button key={lb} onClick={fn || undefined}
                     style={{
@@ -5510,7 +5511,7 @@ function ResolutionSandbox({ alert, onClose, onCommit, onShare, onIgnore, lang, 
                     })}
                 </div>
 
-                {/* Hypothèse 2 — FPC_Vérification signaux externes */}
+                {/* Hypothèse 2 — Vérification signaux externes */}
                 <div data-tour="tour-sandbox-matrix" style={{ border: `1px solid ${FPC_V.borderQ}`, borderRadius: 8, overflow: "hidden" }}>
                     <button onClick={() => setChatOpen(o => !o)} style={{
                         width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px",
@@ -5518,7 +5519,7 @@ function ResolutionSandbox({ alert, onClose, onCommit, onShare, onIgnore, lang, 
                     }}>
                         <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
                             <FPC_Icon name="sparkle" size={14} color={FPC_V.purple} />
-                            <span style={{ fontSize: 12, fontWeight: 800, color: FPC_V.neutral }}>Hypothèse 2 — FPC_Vérification signaux externes</span>
+                            <span style={{ fontSize: 12, fontWeight: 800, color: FPC_V.neutral }}>Hypothèse 2 — Vérification signaux externes</span>
                         </span>
                         <FPC_Icon name={chatOpen ? "chevD" : "chevR"} size={14} color={FPC_V.quiet} />
                     </button>
@@ -6265,11 +6266,10 @@ function SettingsPanel({ onClose }) {
         </AnimatePresence>
     );
 }
-
 /* ════════════════════════════════════════════════════════════════════════
    PAGE
    ════════════════════════════════════════════════════════════════════════ */
-function ForecastPilotingCockpit({ onGoHome, onSeasonPlanning, onReplenishment, onShortage, onOpenSettings, initialAlertId, openTour, onTourOpened, persona, setPersona, lang }) {
+function ForecastPilotingCockpit({ onGoHome, onSeasonPlanning, onReplenishment, onShortage, onCloseSeason, onOpenSettings, initialAlertId, openTour, onTourOpened, persona, setPersona, lang }) {
     const ALERTS = persona === "ZMP" ? ZMP_ALERTS : ZDP_ALERTS;
     const initId = (() => {
         if (initialAlertId && ALERTS.find(a => a.id === initialAlertId)) return initialAlertId;
@@ -6452,7 +6452,7 @@ function ForecastPilotingCockpit({ onGoHome, onSeasonPlanning, onReplenishment, 
 
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100%", background: FPC_V.bgAlt, fontFamily: FPC_FONT, overflow: "hidden" }}>
-            <FPC_TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onPiloting={closeDrawer} onSeasonPlanning={onSeasonPlanning} onReplenishment={onReplenishment} onShortage={onShortage} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={FPC_NOTIFICATIONS_DATA.filter(n => n.type === "received" && n.status === "unread").length} onOpenSettings={onOpenSettings} onStartTour={() => setTourMenuOpen(true)} lang={lang} />
+            <FPC_TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onPiloting={closeDrawer} onSeasonPlanning={onSeasonPlanning} onReplenishment={onReplenishment} onShortage={onShortage} onCloseSeason={onCloseSeason} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={FPC_NOTIFICATIONS_DATA.filter(n => n.type === "received" && n.status === "unread").length} onOpenSettings={onOpenSettings} onStartTour={() => setTourMenuOpen(true)} lang={lang} />
             <ActionBar
                 alert={alert} persona={persona}
                 onOpenSandbox={() => setDrawerMode("sandbox")}
@@ -6562,8 +6562,6 @@ function ForecastPilotingCockpit({ onGoHome, onSeasonPlanning, onReplenishment, 
 }
 
 // ===== SeasonPlanningPage.jsx =====
-
-
 /* ════════════════════════════════════════════════════════════════════════
    Season Planning — mise en page suggérée
    Vue macro : calendrier saisonnier, cibles de ventes, allocation budget,
@@ -6592,6 +6590,8 @@ const SeasonPlanningPage_Icon = ({ name, size = 16, color = "currentColor", sw =
         chart: <><path d="M3 3v18h18" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" /><path d="M7 13l3-4 3 3 5-7" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" /></>,
         box: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke={color} strokeWidth={sw} fill="none" /><rect x="9" y="14" width="6" height="8" stroke={color} strokeWidth={sw} fill="none" /></>,
         zap: <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" />,
+        adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
+        flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
         calendar: <><rect x="3" y="4" width="18" height="18" rx="2" stroke={color} strokeWidth={sw} fill="none" /><line x1="3" y1="9" x2="21" y2="9" stroke={color} strokeWidth={sw} /><line x1="8" y1="2" x2="8" y2="6" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="16" y1="2" x2="16" y2="6" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
         chevR: <polyline points="9 18 15 12 9 6" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" />,
         chevD: <polyline points="6 9 12 15 18 9" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" />,
@@ -6630,20 +6630,20 @@ const statusColors = {
     "building": { fg: SeasonPlanningPage_V.warning, bg: SeasonPlanningPage_V.warningQ, labelKey: "status_building" },
 };
 
-function SeasonPlanningPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onReplenishment, onShortage, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
+function SeasonPlanningPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onReplenishment, onShortage, onCloseSeason, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
     return (
         <div style={{ flexShrink: 0, height: 44, background: SeasonPlanningPage_V.brand, display: "flex", alignItems: "center", padding: "0 16px", gap: 14, fontFamily: SeasonPlanningPage_FONT }}>
             <button onClick={onGoHome} style={{ display: "flex", alignItems: "center", gap: 9, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                 <DecathlonMark size={22} />
-                <span style={{ fontSize: 14, fontWeight: 800, color: SeasonPlanningPage_V.white, letterSpacing: "-0.01em" }}>One Forecast Tool</span>
+                <span style={{ fontSize: 14, fontWeight: 800, color: SeasonPlanningPage_V.white, letterSpacing: "-0.01em" }}>One Augmented Interface</span>
             </button>
             <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
             {[
                 ["home", "Home", false, onGoHome],
-                ["calendar", "Season Planning", true, null],
-                ["chart", "Forecast Piloting", false, onGoToCockpit],
-                ["box", "Replenishment", false, onReplenishment],
-                ["zap", "Shortage", false, onShortage],
+                ["calendar", "Prepare Season", true, null],
+                ["chart", "Pilot Season", false, onGoToCockpit],
+                ["adjust", "Fine-tune", false, onReplenishment],
+                ["flag", "Close Season", false, onCloseSeason],
             ].map(([ic, lb, act, fn]) => (
                 <button key={lb} onClick={fn || undefined}
                     style={{
@@ -6721,14 +6721,14 @@ function WIPOverlay({ pageName, lang }) {
     );
 }
 
-function SeasonPlanningPage({ onGoHome, onGoToCockpit, onReplenishment, onShortage, onOpenSettings, onStartTour, persona, setPersona, lang }) {
+function SeasonPlanningPage({ onGoHome, onGoToCockpit, onReplenishment, onShortage, onCloseSeason, onOpenSettings, onStartTour, persona, setPersona, lang }) {
     const [selectedSeason, setSelectedSeason] = useState("S26H");
     const season = SEASONS.find(s => s.id === selectedSeason);
     const [notifOpen, setNotifOpen] = useState(false);
 
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100%", background: SeasonPlanningPage_V.bgAlt, fontFamily: SeasonPlanningPage_FONT, overflow: "hidden" }}>
-            <SeasonPlanningPage_TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onGoToCockpit={onGoToCockpit} onReplenishment={onReplenishment} onShortage={onShortage} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={NOTIF_UNREAD_COUNT} onOpenSettings={onOpenSettings} onStartTour={onStartTour} lang={lang}/>
+            <SeasonPlanningPage_TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onGoToCockpit={onGoToCockpit} onReplenishment={onReplenishment} onShortage={onShortage} onCloseSeason={onCloseSeason} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={NOTIF_UNREAD_COUNT} onOpenSettings={onOpenSettings} onStartTour={onStartTour} lang={lang}/>
             <AnimatePresence>{notifOpen && <NotificationPanel onClose={() => setNotifOpen(false)} />}</AnimatePresence>
 
             {/* Sous-header */}
@@ -6862,10 +6862,7 @@ function SeasonPlanningPage({ onGoHome, onGoToCockpit, onReplenishment, onShorta
     );
 }
 
-
 // ===== ReplenishmentPage.jsx =====
-
-
 /* ════════════════════════════════════════════════════════════════════════
    Replenishment — mise en page suggérée
    Gestion des ordres de réassort : couverture de stock, délais fournisseurs,
@@ -6902,6 +6899,8 @@ const ReplenishmentPage_Icon = ({ name, size = 16, color = "currentColor", sw = 
         check: <polyline points="20 6 9 17 4 12" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" />,
         clock: <><circle cx="12" cy="12" r="9" stroke={color} strokeWidth={sw} fill="none" /><polyline points="12 7 12 12 16 14" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" /></>,
         layers: <><polygon points="12 2 2 7 12 12 22 7 12 2" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" /><polyline points="2 17 12 22 22 17" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" /><polyline points="2 12 12 17 22 12" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" /></>,
+        adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
+        flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
     }[name];
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
 };
@@ -6929,20 +6928,20 @@ const statusTagFn = (lang) => ({
     draft: { fg: ReplenishmentPage_V.quiet, bg: ReplenishmentPage_V.greyQuiet, label: _t(lang, "status_draft") },
 });
 
-function ReplenishmentPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onShortage, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
+function ReplenishmentPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onShortage, onCloseSeason, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
     return (
         <div style={{ flexShrink: 0, height: 44, background: ReplenishmentPage_V.brand, display: "flex", alignItems: "center", padding: "0 16px", gap: 14, fontFamily: ReplenishmentPage_FONT }}>
             <button onClick={onGoHome} style={{ display: "flex", alignItems: "center", gap: 9, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                 <DecathlonMark size={22} />
-                <span style={{ fontSize: 14, fontWeight: 800, color: ReplenishmentPage_V.white, letterSpacing: "-0.01em" }}>One Forecast Tool</span>
+                <span style={{ fontSize: 14, fontWeight: 800, color: ReplenishmentPage_V.white, letterSpacing: "-0.01em" }}>One Augmented Interface</span>
             </button>
             <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
             {[
                 ["home", "Home", false, onGoHome],
-                ["calendar", "Season Planning", false, onSeasonPlanning],
-                ["chart", "Forecast Piloting", false, onGoToCockpit],
-                ["box", "Replenishment", true, null],
-                ["zap", "Shortage", false, onShortage],
+                ["calendar", "Prepare Season", false, onSeasonPlanning],
+                ["chart", "Pilot Season", false, onGoToCockpit],
+                ["adjust", "Fine-tune", true, null],
+                ["flag", "Close Season", false, onCloseSeason],
             ].map(([ic, lb, act, fn]) => (
                 <button key={lb} onClick={fn || undefined}
                     style={{
@@ -7049,7 +7048,7 @@ function ReplenishmentPage_WIPOverlay({ pageName, lang }) {
     );
 }
 
-function ReplenishmentPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onShortage, onOpenSettings, onStartTour, persona, setPersona, lang }) {
+function ReplenishmentPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onShortage, onCloseSeason, onOpenSettings, onStartTour, persona, setPersona, lang }) {
     const [filter, setFilter] = useState("all");
     const [notifOpen, setNotifOpen] = useState(false);
 
@@ -7063,7 +7062,7 @@ function ReplenishmentPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onShorta
 
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100%", background: ReplenishmentPage_V.bgAlt, fontFamily: ReplenishmentPage_FONT, overflow: "hidden" }}>
-            <ReplenishmentPage_TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onGoToCockpit={onGoToCockpit} onSeasonPlanning={onSeasonPlanning} onShortage={onShortage} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={NOTIF_UNREAD_COUNT} onOpenSettings={onOpenSettings} onStartTour={onStartTour} lang={lang}/>
+            <ReplenishmentPage_TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onGoToCockpit={onGoToCockpit} onSeasonPlanning={onSeasonPlanning} onShortage={onShortage} onCloseSeason={onCloseSeason} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={NOTIF_UNREAD_COUNT} onOpenSettings={onOpenSettings} onStartTour={onStartTour} lang={lang}/>
             <AnimatePresence>{notifOpen && <NotificationPanel onClose={() => setNotifOpen(false)} />}</AnimatePresence>
 
             {/* Sous-header */}
@@ -7196,10 +7195,7 @@ function ReplenishmentPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onShorta
     );
 }
 
-
 // ===== ShortageAlertPage.jsx =====
-
-
 /* ════════════════════════════════════════════════════════════════════════
    Shortage — mise en page suggérée
    Tableau de bord des risques de rupture : SKUs exposés, couverture J,
@@ -7235,6 +7231,8 @@ const ShortageAlertPage_Icon = ({ name, size = 16, color = "currentColor", sw = 
         arrowUp: <><line x1="12" y1="19" x2="12" y2="5" stroke={color} strokeWidth={sw} strokeLinecap="round" /><polyline points="5 12 12 5 19 12" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" /></>,
         target: <><circle cx="12" cy="12" r="9" stroke={color} strokeWidth={sw} fill="none" /><circle cx="12" cy="12" r="5" stroke={color} strokeWidth={sw} fill="none" /><circle cx="12" cy="12" r="1.6" fill={color} /></>,
         x: <><line x1="18" y1="6" x2="6" y2="18" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="6" y1="6" x2="18" y2="18" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
+        adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
+        flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
     }[name];
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
 };
@@ -7268,20 +7266,20 @@ function CoverageBar({ cov, target }) {
     );
 }
 
-function ShortageAlertPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
+function ShortageAlertPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onCloseSeason, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
     return (
         <div style={{ flexShrink: 0, height: 44, background: ShortageAlertPage_V.brand, display: "flex", alignItems: "center", padding: "0 16px", gap: 14, fontFamily: ShortageAlertPage_FONT }}>
             <button onClick={onGoHome} style={{ display: "flex", alignItems: "center", gap: 9, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                 <DecathlonMark size={22} />
-                <span style={{ fontSize: 14, fontWeight: 800, color: ShortageAlertPage_V.white, letterSpacing: "-0.01em" }}>One Forecast Tool</span>
+                <span style={{ fontSize: 14, fontWeight: 800, color: ShortageAlertPage_V.white, letterSpacing: "-0.01em" }}>One Augmented Interface</span>
             </button>
             <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
             {[
                 ["home", "Home", false, onGoHome],
-                ["calendar", "Season Planning", false, onSeasonPlanning],
-                ["chart", "Forecast Piloting", false, onGoToCockpit],
-                ["box", "Replenishment", false, onReplenishment],
-                ["zap", "Shortage", true, null],
+                ["calendar", "Prepare Season", false, onSeasonPlanning],
+                ["chart", "Pilot Season", false, onGoToCockpit],
+                ["adjust", "Fine-tune", true, null],
+                ["flag", "Close Season", false, onCloseSeason],
             ].map(([ic, lb, act, fn]) => (
                 <button key={lb} onClick={fn || undefined}
                     style={{
@@ -7358,7 +7356,7 @@ function ShortageAlertPage_WIPOverlay({ pageName, lang }) {
     );
 }
 
-function ShortageAlertPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onOpenSettings, onStartTour, persona, setPersona, lang }) {
+function ShortageAlertPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onCloseSeason, onOpenSettings, onStartTour, persona, setPersona, lang }) {
     const [selected, setSelected] = useState(null);
     const [dismissed, setDismissed] = useState(new Set());
     const [notifOpen, setNotifOpen] = useState(false);
@@ -7370,7 +7368,7 @@ function ShortageAlertPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onReplen
 
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100%", background: ShortageAlertPage_V.bgAlt, fontFamily: ShortageAlertPage_FONT, overflow: "hidden" }}>
-            <ShortageAlertPage_TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onGoToCockpit={onGoToCockpit} onSeasonPlanning={onSeasonPlanning} onReplenishment={onReplenishment} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={NOTIF_UNREAD_COUNT} onOpenSettings={onOpenSettings} onStartTour={onStartTour} lang={lang}/>
+            <ShortageAlertPage_TopRibbon persona={persona} setPersona={setPersona} onGoHome={onGoHome} onGoToCockpit={onGoToCockpit} onSeasonPlanning={onSeasonPlanning} onReplenishment={onReplenishment} onCloseSeason={onCloseSeason} onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={NOTIF_UNREAD_COUNT} onOpenSettings={onOpenSettings} onStartTour={onStartTour} lang={lang}/>
             <AnimatePresence>{notifOpen && <NotificationPanel onClose={() => setNotifOpen(false)} />}</AnimatePresence>
 
             {/* Sous-header */}
@@ -7606,7 +7604,6 @@ function ShortageAlertPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onReplen
     );
 }
 
-
 // ===== ControlTowerPage.jsx =====
 /* ════════════════════════════════════════════════════════════════════════
    Control Tower — paramétrage de l'automatisation + historique des gestes
@@ -7697,13 +7694,13 @@ function CT_PersonaDropdown({ persona, setPersona, lang }) {
     );
 }
 
-function CT_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onShortage, onOpenNotif, notifUnread = 0, onOpenSettings, lang }) {
+function CT_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onShortage, onCloseSeason, onOpenNotif, notifUnread = 0, onOpenSettings, lang }) {
     const NAV = [
         ["home", _t(lang, "nav_home"), false, onGoHome],
         ["calendar", _t(lang, "nav_season_planning"), false, onSeasonPlanning],
         ["chart", _t(lang, "nav_forecast_piloting"), false, onGoToCockpit],
         ["adjust", _t(lang, "nav_replenishment"), false, onReplenishment],
-        ["flag", _t(lang, "nav_close_season"), false, null],
+        ["flag", _t(lang, "nav_close_season"), false, onCloseSeason],
     ];
     return (
         <div style={{ flexShrink: 0, height: 44, background: CT_V.brand, display: "flex", alignItems: "center", padding: "0 16px", gap: 14, fontFamily: CT_FONT }}>
@@ -7811,7 +7808,7 @@ function SectionHeader({ icon, title, subtitle }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
-function ControlTowerPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onShortage, persona, setPersona, onOpenSettings, lang }) {
+function ControlTowerPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onShortage, onCloseSeason, persona, setPersona, onOpenSettings, lang }) {
     const [rules, setRules] = useState(AUTO_RULES);
     const [thresholds, setThresholds] = useState(() => Object.fromEntries(AUTO_RULES.map(r => [r.id, r.threshold])));
     const [suggApplied, setSuggApplied] = useState(false);
@@ -7837,7 +7834,7 @@ function ControlTowerPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onRepleni
             <CT_TopRibbon
                 persona={persona} setPersona={setPersona}
                 onGoHome={onGoHome} onGoToCockpit={onGoToCockpit}
-                onSeasonPlanning={onSeasonPlanning} onReplenishment={onReplenishment} onShortage={onShortage}
+                onSeasonPlanning={onSeasonPlanning} onReplenishment={onReplenishment} onShortage={onShortage} onCloseSeason={onCloseSeason}
                 onOpenNotif={() => {}} notifUnread={0}
                 onOpenSettings={onOpenSettings}
                 lang={lang}
@@ -8018,159 +8015,436 @@ function ControlTowerPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onRepleni
     );
 }
 
+// ===== CloseSeasonPage.jsx =====
+/* ════════════════════════════════════════════════════════════════════════
+   CloseSeasonPage — module en construction
+   Bilan de fin de saison, ramp-down, model lifecycle management.
+   Structure identique aux autres pages WIP (Vitamin Play design system).
+   ════════════════════════════════════════════════════════════════════════ */
+
+const CloseSeasonPage_LOGO = "data:image/png;base64,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";
+
+const CloseSeasonPage_V = {
+    brand: "#3643BA", brandHover: "#262F82", brandQuiet: "#E1E3F5",
+    neutral: "#101010", quiet: "#616161",
+    bgMain: "#FFFFFF", bgAlt: "#F5F4F5", greyQuiet: "#EFF1F3",
+    borderQ: "#E1E0DF", borderN: "#949494",
+    negative: "#D70321", negativeQ: "#FDE6E9",
+    warning: "#DB6900", warningQ: "#FCEBDC",
+    positive: "#017F5C", positiveQ: "#D7F0E7",
+    purple: "#9E45F7", purpleQ: "#EBD8FD",
+    white: "#FFFFFF",
+};
+const CloseSeasonPage_FONT = "'Decathlon Sans', Inter, system-ui, -apple-system, sans-serif";
+const CloseSeasonPage_EASE = [0.22, 1, 0.36, 1];
+
+const CloseSeasonPage_Icon = ({ name, size = 16, color = "currentColor", sw = 1.6 }) => {
+    const p = {
+        home: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke={color} strokeWidth={sw} fill="none" /><polyline points="9 22 9 12 15 12 15 22" stroke={color} strokeWidth={sw} fill="none" /></>,
+        chart: <><path d="M3 3v18h18" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" /><path d="M7 13l3-4 3 3 5-7" stroke={color} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" /></>,
+        calendar: <><rect x="3" y="4" width="18" height="18" rx="2" stroke={color} strokeWidth={sw} fill="none" /><line x1="3" y1="9" x2="21" y2="9" stroke={color} strokeWidth={sw} /><line x1="8" y1="2" x2="8" y2="6" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="16" y1="2" x2="16" y2="6" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
+        sparkle: <><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6L12 2z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round" /></>,
+        adjust: <><line x1="4" y1="21" x2="4" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="4" y1="10" x2="4" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="21" x2="12" y2="12" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="12" y1="8" x2="12" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="21" x2="20" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="20" y1="12" x2="20" y2="3" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="1" y1="14" x2="7" y2="14" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="9" y1="8" x2="15" y2="8" stroke={color} strokeWidth={sw} strokeLinecap="round" /><line x1="17" y1="16" x2="23" y2="16" stroke={color} strokeWidth={sw} strokeLinecap="round" /></>,
+        flag: <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke={color} strokeWidth={sw} fill="none" strokeLinejoin="round"/><line x1="4" y1="22" x2="4" y2="15" stroke={color} strokeWidth={sw} strokeLinecap="round"/></>,
+    }[name];
+    return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, display: "block" }}>{p}</svg>;
+};
+
+const CloseSeasonPage_NOTIF_UNREAD_COUNT = 0;
+
+function CloseSeasonPage_TopRibbon({ persona, setPersona, onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onCloseSeason, onOpenNotif, notifUnread = 0, onOpenSettings, onStartTour, lang }) {
+    return (
+        <div style={{ flexShrink: 0, height: 44, background: CloseSeasonPage_V.brand, display: "flex", alignItems: "center", padding: "0 16px", gap: 14, fontFamily: CloseSeasonPage_FONT }}>
+            <button onClick={onGoHome} style={{ display: "flex", alignItems: "center", gap: 9, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+                <DecathlonMark size={22} />
+                <span style={{ fontSize: 14, fontWeight: 800, color: CloseSeasonPage_V.white, letterSpacing: "-0.01em" }}>One Augmented Interface</span>
+            </button>
+            <div style={{ width: 1, height: 18, background: "rgba(255,255,255,.2)" }} />
+            {[
+                ["home", "Home", false, onGoHome],
+                ["calendar", "Prepare Season", false, onSeasonPlanning],
+                ["chart", "Pilot Season", false, onGoToCockpit],
+                ["adjust", "Fine-tune", false, onReplenishment],
+                ["flag", "Close Season", true, null],
+            ].map(([ic, lb, act, fn]) => (
+                <button key={lb} onClick={fn || undefined}
+                    style={{
+                        display: "flex", alignItems: "center", gap: 6, padding: "5px 10px", borderRadius: 8, border: "none",
+                        cursor: fn ? "pointer" : "default", background: act ? "rgba(255,255,255,.18)" : "transparent",
+                        color: act ? CloseSeasonPage_V.white : "rgba(255,255,255,.65)", fontSize: 12, fontWeight: act ? 700 : 500, fontFamily: CloseSeasonPage_FONT
+                    }}>
+                    <CloseSeasonPage_Icon name={ic} size={14} color="currentColor" />{lb}
+                </button>
+            ))}
+            <div style={{ flex: 1 }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 8, padding: "5px 12px" }}>
+                <CloseSeasonPage_Icon name="sparkle" size={14} color="#fff" />
+                <span style={{ fontSize: 12, fontWeight: 800, color: CloseSeasonPage_V.white }}>142h économisées</span>
+            </div>
+            <button onClick={onOpenNotif} style={{ position: "relative", background: notifUnread > 0 ? "rgba(255,255,255,.22)" : "rgba(255,255,255,.1)", border: notifUnread > 0 ? "1px solid rgba(255,255,255,.5)" : "1px solid rgba(255,255,255,.2)", borderRadius: 8, width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#fff" strokeWidth="1.6" /><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="#fff" strokeWidth="1.6" /></svg>
+                {notifUnread > 0 && <span style={{ position: "absolute", top: -4, right: -4, width: 16, height: 16, borderRadius: "50%", background: CloseSeasonPage_V.negative, border: "2px solid " + CloseSeasonPage_V.brand, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 800, color: "#fff" }}>{notifUnread}</span>}
+            </button>
+            <button onClick={onStartTour} aria-label="Ouvrir la visite guidée" title="Visite guidée"
+                style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(255,255,255,.15)", border: "1px solid rgba(255,255,255,.3)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 14, fontWeight: 800, fontFamily: CloseSeasonPage_FONT }}>
+                ?
+            </button>
+            <button onClick={onOpenSettings} title="Monitoring autonome" style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.2)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#fff" strokeWidth="1.6"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="#fff" strokeWidth="1.6"/></svg>
+            </button>
+            <PersonaDropdown persona={persona} setPersona={setPersona} lang={lang} />
+        </div>
+    );
+}
+
+function CloseSeasonPage_WIPOverlay({ pageName, lang }) {
+    return (
+        <div style={{
+            position: "absolute", inset: 0, zIndex: 200,
+            backdropFilter: "blur(7px)", WebkitBackdropFilter: "blur(7px)",
+            background: "rgba(245,244,245,0.72)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontFamily: CloseSeasonPage_FONT,
+        }}>
+            <div style={{
+                background: CloseSeasonPage_V.white, borderRadius: 16,
+                border: `1px solid ${CloseSeasonPage_V.borderQ}`,
+                boxShadow: "0 12px 48px rgba(0,0,0,.14)",
+                padding: "36px 40px", maxWidth: 480, textAlign: "center",
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
+            }}>
+                <div style={{
+                    width: 56, height: 56, borderRadius: 16,
+                    background: CloseSeasonPage_V.warningQ, border: `1px solid ${CloseSeasonPage_V.warning}44`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 26,
+                }}>🚧</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    <span style={{ fontSize: 16, fontWeight: 800, color: CloseSeasonPage_V.neutral }}>
+                        {pageName} {_t(lang, "wip_suffix")}
+                    </span>
+                    <span style={{ fontSize: 13, color: CloseSeasonPage_V.quiet, lineHeight: 1.55 }}>
+                        {_t(lang, "wip_subtitle")}
+                    </span>
+                </div>
+                <div style={{
+                    background: CloseSeasonPage_V.brandQuiet, borderRadius: 10,
+                    padding: "12px 16px",
+                    fontSize: 13, fontWeight: 600, color: CloseSeasonPage_V.brand,
+                    lineHeight: 1.5,
+                }}>
+                    {_t(lang, "wip_question")}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function CloseSeasonPage({ onGoHome, onGoToCockpit, onSeasonPlanning, onReplenishment, onCloseSeason, onOpenSettings, onStartTour, persona, setPersona, lang }) {
+    const [notifOpen, setNotifOpen] = useState(false);
+
+    return (
+        <div style={{ display: "flex", flexDirection: "column", height: "100%", background: CloseSeasonPage_V.bgAlt, fontFamily: CloseSeasonPage_FONT, overflow: "hidden" }}>
+            <CloseSeasonPage_TopRibbon
+                persona={persona} setPersona={setPersona}
+                onGoHome={onGoHome} onGoToCockpit={onGoToCockpit}
+                onSeasonPlanning={onSeasonPlanning} onReplenishment={onReplenishment}
+                onCloseSeason={onCloseSeason}
+                onOpenNotif={() => setNotifOpen(o => !o)} notifUnread={CloseSeasonPage_NOTIF_UNREAD_COUNT}
+                onOpenSettings={onOpenSettings} onStartTour={onStartTour} lang={lang}
+            />
+            <AnimatePresence>{notifOpen && <NotificationPanel onClose={() => setNotifOpen(false)} />}</AnimatePresence>
+
+            {/* Sous-header */}
+            <div style={{ flexShrink: 0, height: 40, background: CloseSeasonPage_V.bgMain, borderBottom: `1px solid ${CloseSeasonPage_V.borderQ}`, display: "flex", alignItems: "center", padding: "0 16px", gap: 10 }}>
+                <CloseSeasonPage_Icon name="flag" size={14} color={CloseSeasonPage_V.quiet} />
+                <span style={{ fontSize: 12, fontWeight: 800, color: CloseSeasonPage_V.neutral }}>{_t(lang, "page_close_season")}</span>
+                <div style={{ flex: 1 }} />
+            </div>
+
+            <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: 16, paddingBottom: 32, position: "relative" }}>
+                <CloseSeasonPage_WIPOverlay pageName={_t(lang, "page_close_season")} lang={lang} />
+            </div>
+        </div>
+    );
+}
+
 // ===== App.jsx =====
-/* ─── Welcome Splash (Release Note + Language Picker) ────────────────── */
-function WelcomeSplash({ initialLang, onStart }) {
-  const [lang, setLang] = useState(initialLang || "fr");
-
-  const TIERS_FR = [
-    { name: "Zero-Touch", color: "#22c55e", desc: "Les anomalies courantes sont détectées, décidées et exécutées en tâche de fond. Vous gardez la main via la fonction Rollback, qui annule instantanément toute décision de l'IA avant son intégration dans SAP." },
-    { name: "Fast-Track", color: "#f59e0b", desc: "L'IA détecte l'anomalie, estime l'impact financier et vous propose des scénarios classés par pertinence. Vous validez : ce niveau s'applique dès qu'un risque financier ou capacitaire requiert votre jugement métier." },
-    { name: "Deep-Dive",  color: "#ef4444", desc: "Face à une rupture de tendance inédite ou à un manque de données historiques, l'IA remonte le risque sans recommandation. L'analyse, la simulation de scénarios et la décision vous appartiennent entièrement, via le bac à sable intégré." },
-  ];
-  const TIERS_EN = [
-    { name: "Zero-Touch", color: "#22c55e", desc: "Routine anomalies are detected, decided, and executed in the background. You retain full control via the Rollback function, which cancels any AI decision instantly before it commits to SAP." },
-    { name: "Fast-Track", color: "#f59e0b", desc: "The AI detects the anomaly, estimates financial impact, and surfaces ranked resolution scenarios. You validate: this tier applies whenever a capacity or financial risk requires your domain expertise." },
-    { name: "Deep-Dive",  color: "#ef4444", desc: "When facing an unprecedented trend disruption or insufficient historical data, the AI flags the risk without a recommendation. Analysis, scenario simulation, and the final call are entirely yours, within the built-in simulation sandbox." },
-  ];
-
-  const isFr = lang === "fr";
-  const tiers = isFr ? TIERS_FR : TIERS_EN;
-
-  const S = {
-    title:        isFr ? "Note aux testeurs" : "Tester Briefing",
-    audience:     "Zone Merch Planners · Zone Dispatch Planners · Retail Dispatch Planners",
-    intro:        isFr
-      ? "Une part significative de votre temps de pilotage part aujourd'hui dans des ajustements routiniers : détection d'anomalies, injections dans Excel, arbitrages à faible valeur ajoutée. One Interface a été conçu pour libérer ce temps, afin que vous puissiez concentrer votre expertise là où elle crée de la valeur réelle."
-      : "A significant share of your planning time today goes into routine adjustments: anomaly detection, Excel injection loops, low-value arbitration calls. One Interface was built to recover that time, so you can focus your expertise where it genuinely creates value.",
-    s1title:      isFr ? "Comment l'outil structure votre charge de travail" : "How the tool structures your workload",
-    s1lead:       isFr ? "Trois niveaux d'alertes, calibrés sur la complexité de chaque situation." : "Three alert tiers, calibrated to the business complexity of each exception.",
-    s4title:      isFr ? "Lire une alerte en trois blocs" : "Reading an alert in three blocks",
-    s4:           isFr
-      ? "Le titre d'une alerte vous dit d'emblée ce qui se passe et pourquoi : type de problème, cause et objet impacté, séparés par des points médians. Shortage · Dégradation forecast · Geste manuel · 8390 SKI & SNOWBOARD HEADWEAR, par exemple. La cause racine n'apparaît que quand elle a été identifiée, le titre peut donc comporter deux ou quatre segments selon les cas. Sous le titre, deux tags situent le problème : l'entrepôt ou le périmètre géographique concerné, puis le canal de distribution. La recommandation IA, quand elle existe, se trouve dans le drawer de détail : une phrase, un geste à considérer."
-      : "The alert title tells you at a glance what's happening and why: problem type, cause, and affected object, separated by mid-dots. Shortage · Forecast degradation · Manual gesture · 8390 SKI & SNOWBOARD HEADWEAR, for instance. The root cause only appears when identified, so the title may carry two or four segments depending on the situation. Below the title, two tags place the problem in context: the warehouse or geographic scope concerned, then the distribution channel. The AI recommendation, when there is one, is in the detail drawer: one sentence, one action to consider.",
-    s5title:      isFr ? "Analyser un périmètre en dehors de la file d'alertes" : "Analysing a scope outside the alert queue",
-    s5:           isFr
-      ? "La barre de définition de périmètre vous permet de construire un scope à la demande : zone géographique, famille produit, article, entrepôt, période. Cliquer sur Analyser charge le graphique et le tableau pour ce périmètre, indépendamment de toute alerte. Des vues enregistrées permettent de sauvegarder et recharger un périmètre en un clic."
-      : "The scope definition bar lets you build a custom perimeter on demand: geographic zone, product family, item, warehouse, and time period. Clicking Analyse loads the chart and table for that scope, independent of any alert. Saved views let you store and reload a scope in one click.",
-    s2title:      isFr ? "Vous êtes l'instructeur de l'IA" : "You train the algorithm",
-    s2:           isFr
-      ? "Chaque décision que vous prenez, chaque correction que vous apportez, nourrit directement le modèle. Quand vous refusez une suggestion, un Reason Code contextuel (ex. : Événement local, Promo annulée) permet à l'IA d'intégrer vos subtilités métier. Avec le temps, des alertes qui requièrent aujourd'hui votre validation passeront en résolution autonome. L'objectif : réduire votre Time to Decision et votre charge cognitive, pour vous élever au rôle d'Orchestrateur Stratégique. L'IA gère le bruit de fond. Vous gérez ce qu'elle ne peut pas résoudre seule."
-      : "Every decision you make, every correction you apply, feeds directly into the model. When you reject a suggestion, a contextual Reason Code (e.g., Local Event, Canceled Promo) helps the AI absorb your business intelligence. Over time, exceptions that currently require your validation will shift to autonomous resolution. The goal: reducing your Time to Decision and cognitive load, so you can operate as a Strategic Orchestrator. The AI handles the background noise. You handle what it cannot resolve on its own.",
-    s3title:      isFr ? "Pour ce test" : "For this test session",
-    s3:           isFr
-      ? "Vous évoluez dans un environnement bac à sable, totalement isolé de la production. Explorez librement : aucun geste n'impacte le système réel. La boucle d'apprentissage s'activera en production, pas ici. Concentrez vos retours sur la lisibilité des alertes, la pertinence des scénarios proposés et la fluidité du parcours de décision."
-      : "You are working in a sandboxed environment, fully isolated from production. Explore freely: no action here affects the live system. The learning loop activates in production, not during this session. Focus your feedback on alert readability, relevance of proposed scenarios, and the fluency of the decision-making flow.",
-    outOfScope:   isFr
-      ? "Hors périmètre de ce test : intégration SAP live, module Replenishment, fonctionnalités RDP."
-      : "Out of scope for this test: live SAP integration, the Replenishment module, RDP-specific features.",
-    vision:       isFr
-      ? "Ce que vous testez aujourd'hui est la première brique d'une ambition plus large : atteindre le Zero-Touch Replenishment d'ici 2030, dans une chaîne pilotée par exception plutôt que par la masse."
-      : "What you are testing today is the first building block of a broader ambition: Zero-Touch Replenishment by 2030, in a supply chain piloted by exception rather than by volume.",
-    cta:          isFr ? "Commencer le test" : "Start testing",
-  };
-
-  const btnBase = { padding: "6px 14px", borderRadius: 7, border: "none", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", transition: "all 0.15s", textTransform: "uppercase", letterSpacing: "0.05em" };
+/* ─── Language Picker Screen ─────────────────────────────────────────── */
+function LanguagePicker({ onSelect }) {
+  const LOGO_SRC = "data:image/png;base64,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";
 
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 9999, background: "linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0a0a1a 100%)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Decathlon Sans', Inter, system-ui, sans-serif", overflowY: "auto", padding: "24px 16px" }}>
-      {/* Background glow */}
-      <div style={{ position: "fixed", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
-        <div style={{ position: "absolute", top: "15%", left: "5%", width: 400, height: 400, borderRadius: "50%", background: "rgba(54,67,186,0.10)", filter: "blur(80px)" }} />
-        <div style={{ position: "absolute", bottom: "15%", right: "5%", width: 500, height: 500, borderRadius: "50%", background: "rgba(54,67,186,0.07)", filter: "blur(100px)" }} />
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 9999,
+      background: "linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0a0a1a 100%)",
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      fontFamily: "'Decathlon Sans', Inter, system-ui, sans-serif",
+    }}>
+      {/* Background decoration */}
+      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+        <div style={{ position: "absolute", top: "20%", left: "10%", width: 300, height: 300, borderRadius: "50%", background: "rgba(54,67,186,0.12)", filter: "blur(60px)" }} />
+        <div style={{ position: "absolute", bottom: "20%", right: "10%", width: 400, height: 400, borderRadius: "50%", background: "rgba(54,67,186,0.08)", filter: "blur(80px)" }} />
+      </div>
+
+      {/* Logo + Brand */}
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 48, position: "relative" }}>
+        <div style={{ width: 52, height: 52, borderRadius: 14, background: "#3643BA", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <svg width="30" height="25" viewBox="0 0 29 24" fill="none">
+            <path d="M21.1698 0C11.789 0 0.120117 9.706 0.120117 17.75C0.120117 21.905 3.31128 24 7.52604 24C10.6209 24 14.366 22.868 17.9786 20.688V4.636C17.0152 6.286 12.4874 12.933 8.85067 16.474C6.99618 18.28 5.52703 19.063 4.26261 19.063C2.84164 19.063 2.16728 18.099 2.16728 16.666C2.16728 10.164 13.1136 1.71 20.363 1.71C23.3494 1.71 25.2762 3.035 25.2762 5.612C25.2762 7.972 23.6746 10.934 20.941 13.668V18.641C25.7097 14.872 28.5637 10.067 28.5637 6.19C28.5637 2.107 25.3845 0 21.1698 0Z" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>One Augmented Interface</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>Decathlon Supply Chain</div>
+        </div>
       </div>
 
       {/* Card */}
-      <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 24, width: "100%", maxWidth: 660, display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "0 40px 100px rgba(0,0,0,0.5)", position: "relative" }}>
+      <div style={{
+        background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
+        borderRadius: 20, padding: "40px 48px", maxWidth: 440, width: "90%",
+        backdropFilter: "blur(20px)", position: "relative",
+        boxShadow: "0 32px 80px rgba(0,0,0,0.4)",
+      }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 8 }}>
+            Choose your language / Choisissez votre langue
+          </div>
+          <div style={{ width: 40, height: 2, background: "#3643BA", borderRadius: 1, margin: "0 auto" }} />
+        </div>
 
-        {/* Sticky header */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 26px", borderBottom: "1px solid rgba(255,255,255,0.08)", background: "rgba(10,10,26,0.85)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 9, background: "#3643BA", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <svg width="19" height="16" viewBox="0 0 29 24" fill="none"><path d="M21.1698 0C11.789 0 0.120117 9.706 0.120117 17.75C0.120117 21.905 3.31128 24 7.52604 24C10.6209 24 14.366 22.868 17.9786 20.688V4.636C17.0152 6.286 12.4874 12.933 8.85067 16.474C6.99618 18.28 5.52703 19.063 4.26261 19.063C2.84164 19.063 2.16728 18.099 2.16728 16.666C2.16728 10.164 13.1136 1.71 20.363 1.71C23.3494 1.71 25.2762 3.035 25.2762 5.612C25.2762 7.972 23.6746 10.934 20.941 13.668V18.641C25.7097 14.872 28.5637 10.067 28.5637 6.19C28.5637 2.107 25.3845 0 21.1698 0Z" fill="white"/></svg>
-            </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <button onClick={() => onSelect("fr")} style={{
+            display: "flex", alignItems: "center", gap: 16,
+            padding: "18px 24px", borderRadius: 12,
+            border: "1px solid rgba(255,255,255,0.2)",
+            background: "rgba(255,255,255,0.08)",
+            cursor: "pointer", fontFamily: "inherit",
+            transition: "all 0.18s", textAlign: "left",
+            color: "#fff",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = "rgba(54,67,186,0.4)"; e.currentTarget.style.borderColor = "#3643BA"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; }}>
+            <span style={{ fontSize: 32 }}>🇫🇷</span>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>One Forecast Tool</div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)" }}>Decathlon Supply Chain · Prototype</div>
+              <div style={{ fontSize: 16, fontWeight: 700 }}>Français</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginTop: 2 }}>Interface complète en français</div>
             </div>
-          </div>
-          <div style={{ display: "flex", gap: 5, background: "rgba(255,255,255,0.07)", borderRadius: 10, padding: 3 }}>
-            {["fr", "en"].map(l => (
-              <button key={l} onClick={() => setLang(l)} style={{ ...btnBase, background: lang === l ? "#3643BA" : "transparent", color: lang === l ? "#fff" : "rgba(255,255,255,0.45)" }}>
-                {l === "fr" ? "🇫🇷 FR" : "🇬🇧 EN"}
-              </button>
-            ))}
-          </div>
-        </div>
+          </button>
 
-        {/* Scrollable body */}
-        <div style={{ padding: "26px 30px", overflowY: "auto", maxHeight: "58vh" }}>
-
-          {/* Title */}
-          <div style={{ marginBottom: 22 }}>
-            <div style={{ fontSize: 10, color: "#3643BA", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 5 }}>One Interface</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 6 }}>{S.title}</div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>{S.audience}</div>
-          </div>
-          <div style={{ height: 1, background: "rgba(255,255,255,0.07)", marginBottom: 22 }} />
-
-          {/* Intro */}
-          <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 26 }}>{S.intro}</p>
-
-          {/* Section 1 */}
-          <div style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 4 }}>{S.s1title}</div>
-            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)", marginBottom: 12, lineHeight: 1.6 }}>{S.s1lead}</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-              {tiers.map(tier => (
-                <div key={tier.name} style={{ display: "flex", gap: 14, alignItems: "flex-start", background: "rgba(255,255,255,0.035)", border: "1px solid rgba(255,255,255,0.065)", borderRadius: 10, padding: "12px 15px" }}>
-                  <div style={{ flexShrink: 0, width: 78, fontSize: 10.5, fontWeight: 800, color: tier.color, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.3, paddingTop: 2 }}>{tier.name}</div>
-                  <div style={{ fontSize: 12.5, color: "rgba(255,255,255,0.62)", lineHeight: 1.68 }}>{tier.desc}</div>
-                </div>
-              ))}
+          <button onClick={() => onSelect("en")} style={{
+            display: "flex", alignItems: "center", gap: 16,
+            padding: "18px 24px", borderRadius: 12,
+            border: "1px solid rgba(255,255,255,0.2)",
+            background: "rgba(255,255,255,0.08)",
+            cursor: "pointer", fontFamily: "inherit",
+            transition: "all 0.18s", textAlign: "left",
+            color: "#fff",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = "rgba(54,67,186,0.4)"; e.currentTarget.style.borderColor = "#3643BA"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; }}>
+            <span style={{ fontSize: 32 }}>🇬🇧</span>
+            <div>
+              <div style={{ fontSize: 16, fontWeight: 700 }}>English</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginTop: 2 }}>Full interface in English</div>
             </div>
-          </div>
-
-          {/* Section 4 — Carte alerte */}
-          <div style={{ marginBottom: 22 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 7 }}>{S.s4title}</div>
-            <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.75 }}>{S.s4}</p>
-          </div>
-
-          {/* Section 5 — Mode analyse */}
-          <div style={{ marginBottom: 22 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 7 }}>{S.s5title}</div>
-            <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.75 }}>{S.s5}</p>
-          </div>
-
-          {/* Section 2 */}
-          <div style={{ marginBottom: 22 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 7 }}>{S.s2title}</div>
-            <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.75 }}>{S.s2}</p>
-          </div>
-
-          {/* Section 3 */}
-          <div style={{ marginBottom: 18 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 7 }}>{S.s3title}</div>
-            <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 10 }}>{S.s3}</p>
-            <div style={{ background: "rgba(54,67,186,0.11)", border: "1px solid rgba(54,67,186,0.22)", borderRadius: 8, padding: "9px 13px" }}>
-              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", lineHeight: 1.6, margin: 0 }}>{S.outOfScope}</p>
-            </div>
-          </div>
-
-          {/* Vision */}
-          <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.28)", lineHeight: 1.6, fontStyle: "italic" }}>{S.vision}</p>
-        </div>
-
-        {/* Sticky footer CTA */}
-        <div style={{ padding: "18px 30px", borderTop: "1px solid rgba(255,255,255,0.08)", background: "rgba(10,10,26,0.85)", backdropFilter: "blur(20px)" }}>
-          <button onClick={() => onStart(lang)} style={{ width: "100%", padding: "15px 24px", background: "#3643BA", border: "none", borderRadius: 11, color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", letterSpacing: "-0.01em", transition: "all 0.18s", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
-            onMouseEnter={e => { e.currentTarget.style.background = "#2d38a0"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "#3643BA"; e.currentTarget.style.transform = "translateY(0)"; }}>
-            {S.cta}
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </button>
         </div>
+      </div>
+
+      <div style={{ marginTop: 32, fontSize: 12, color: "rgba(255,255,255,0.3)", position: "relative" }}>
+        One Augmented Interface · Prototype v2
+      </div>
+    </div>
+  );
+}
+
+/* ─── Persona Picker Screen ──────────────────────────────────────────── */
+function PersonaPicker({ lang, onSelect }) {
+  const isEn = lang === "en";
+  return (
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 9999,
+      background: "linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0a0a1a 100%)",
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      fontFamily: "'Decathlon Sans', Inter, system-ui, sans-serif",
+    }}>
+      {/* Background decoration */}
+      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+        <div style={{ position: "absolute", top: "20%", left: "10%", width: 300, height: 300, borderRadius: "50%", background: "rgba(54,67,186,0.12)", filter: "blur(60px)" }} />
+        <div style={{ position: "absolute", bottom: "20%", right: "10%", width: 400, height: 400, borderRadius: "50%", background: "rgba(54,67,186,0.08)", filter: "blur(80px)" }} />
+      </div>
+
+      {/* Logo + Brand */}
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 48, position: "relative" }}>
+        <div style={{ width: 52, height: 52, borderRadius: 14, background: "#3643BA", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <svg width="30" height="25" viewBox="0 0 29 24" fill="none">
+            <path d="M21.1698 0C11.789 0 0.120117 9.706 0.120117 17.75C0.120117 21.905 3.31128 24 7.52604 24C10.6209 24 14.366 22.868 17.9786 20.688V4.636C17.0152 6.286 12.4874 12.933 8.85067 16.474C6.99618 18.28 5.52703 19.063 4.26261 19.063C2.84164 19.063 2.16728 18.099 2.16728 16.666C2.16728 10.164 13.1136 1.71 20.363 1.71C23.3494 1.71 25.2762 3.035 25.2762 5.612C25.2762 7.972 23.6746 10.934 20.941 13.668V18.641C25.7097 14.872 28.5637 10.067 28.5637 6.19C28.5637 2.107 25.3845 0 21.1698 0Z" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>One Augmented Interface</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>Decathlon Supply Chain</div>
+        </div>
+      </div>
+
+      {/* Card */}
+      <div style={{
+        background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
+        borderRadius: 20, padding: "40px 48px", maxWidth: 480, width: "90%",
+        backdropFilter: "blur(20px)", position: "relative",
+        boxShadow: "0 32px 80px rgba(0,0,0,0.4)",
+      }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 8 }}>
+            {isEn ? "Choose your role" : "Choisissez votre rôle"}
+          </div>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginBottom: 12 }}>
+            {isEn ? "The interface will adapt to your perimeter." : "L'interface s'adaptera à votre périmètre."}
+          </div>
+          <div style={{ width: 40, height: 2, background: "#3643BA", borderRadius: 1, margin: "0 auto" }} />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {/* ZDP */}
+          <button onClick={() => onSelect("ZDP")} style={{
+            display: "flex", alignItems: "flex-start", gap: 16,
+            padding: "20px 24px", borderRadius: 12,
+            border: "1px solid rgba(255,255,255,0.2)",
+            background: "rgba(255,255,255,0.08)",
+            cursor: "pointer", fontFamily: "inherit",
+            transition: "all 0.18s", textAlign: "left", color: "#fff",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = "rgba(54,67,186,0.4)"; e.currentTarget.style.borderColor = "#3643BA"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; }}>
+            <div style={{ fontSize: 28, lineHeight: 1, marginTop: 2 }}>🏭</div>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 3 }}>ZDP</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)" }}>
+                {isEn ? "Zone Dispatch Planner — warehouse allocation & replenishment" : "Zone Dispatch Planner — allocations entrepôt & réapprovisionnement"}
+              </div>
+            </div>
+          </button>
+
+          {/* ZMP */}
+          <button onClick={() => onSelect("ZMP")} style={{
+            display: "flex", alignItems: "flex-start", gap: 16,
+            padding: "20px 24px", borderRadius: 12,
+            border: "1px solid rgba(255,255,255,0.2)",
+            background: "rgba(255,255,255,0.08)",
+            cursor: "pointer", fontFamily: "inherit",
+            transition: "all 0.18s", textAlign: "left", color: "#fff",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = "rgba(54,67,186,0.4)"; e.currentTarget.style.borderColor = "#3643BA"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; }}>
+            <div style={{ fontSize: 28, lineHeight: 1, marginTop: 2 }}>🌍</div>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 3 }}>ZMP</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)" }}>
+                {isEn ? "Zone Merch Planner — demand planning & forecast management" : "Zone Merch Planner — planification demand & gestion du forecast"}
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div style={{ marginTop: 32, fontSize: 12, color: "rgba(255,255,255,0.3)", position: "relative" }}>
+        One Augmented Interface · Prototype v2
+      </div>
+    </div>
+  );
+}
+
+/* ─── Release Note Screen ─────────────────────────────────────────────── */
+const RELEASE_NOTES = {
+  fr: [
+    { title: "Zero-Touch", body: "Les anomalies courantes sont détectées, décidées et exécutées en tâche de fond. Vous gardez la main via le Rollback, qui annule instantanément toute décision avant son intégration dans SAP." },
+    { title: "Fast-Track", body: "L'IA détecte l'anomalie, estime l'impact financier et vous propose des scénarios classés. Vous validez dès qu'un risque capacitaire ou financier requiert votre jugement métier." },
+    { title: "Deep-Dive", body: "Face à une rupture de tendance inédite ou un manque de données, l'IA remonte le risque sans recommandation. L'analyse, la simulation et la décision vous appartiennent entièrement." },
+    { title: "Cockpit de pilotage", body: "La barre de périmètre vous permet de construire un scope à la demande : zone, famille produit, article, entrepôt, période. Des vues enregistrées rechargent votre configuration en un clic." },
+    { title: "Vous entraînez l'IA", body: "Chaque décision nourrit le modèle. Les Reason Codes (Événement local, Promo annulée…) permettent à l'IA d'intégrer vos subtilités métier et de progresser vers plus d'autonomie." },
+    { title: "Périmètre du test", body: "Environnement bac à sable, isolé de la production. Hors périmètre : intégration SAP live, module Fine-tune, fonctionnalités RDP. Concentrez vos retours sur la lisibilité des alertes et la fluidité du parcours de décision." },
+  ],
+  en: [
+    { title: "Zero-Touch", body: "Routine anomalies are detected, decided, and executed in the background. You retain full control via the Rollback function, which cancels any AI decision instantly before it commits to SAP." },
+    { title: "Fast-Track", body: "The AI detects the anomaly, estimates financial impact, and surfaces ranked resolution scenarios. You validate whenever a capacity or financial risk requires your domain expertise." },
+    { title: "Deep-Dive", body: "When facing an unprecedented trend disruption or insufficient historical data, the AI flags the risk without a recommendation. Analysis, simulation, and the final call are entirely yours." },
+    { title: "Piloting cockpit", body: "The scope bar lets you build a custom perimeter on demand: geographic zone, product family, item, warehouse, time period. Saved views reload your configuration in one click." },
+    { title: "You train the AI", body: "Every decision feeds the model. Reason Codes (Local Event, Canceled Promo…) help the AI absorb your business intelligence and progress toward greater autonomy." },
+    { title: "Test scope", body: "Sandboxed environment, fully isolated from production. Out of scope: live SAP integration, Fine-tune module, RDP features. Focus feedback on alert readability and decision-flow fluency." },
+  ],
+};
+
+function ReleaseNoteScreen({ lang, persona, onStart }) {
+  const isEn = lang === "en";
+  const notes = RELEASE_NOTES[lang] || RELEASE_NOTES.fr;
+  const V_blue = "#3643BA";
+
+  return (
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 9999, overflowY: "auto",
+      background: "linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0a0a1a 100%)",
+      display: "flex", flexDirection: "column", alignItems: "center",
+      padding: "40px 16px 60px",
+      fontFamily: "'Decathlon Sans', Inter, system-ui, sans-serif",
+    }}>
+      {/* Background decoration */}
+      <div style={{ position: "fixed", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+        <div style={{ position: "absolute", top: "10%", left: "5%", width: 400, height: 400, borderRadius: "50%", background: "rgba(54,67,186,0.1)", filter: "blur(80px)" }} />
+        <div style={{ position: "absolute", bottom: "10%", right: "5%", width: 500, height: 500, borderRadius: "50%", background: "rgba(54,67,186,0.06)", filter: "blur(100px)" }} />
+      </div>
+
+      <div style={{ position: "relative", maxWidth: 640, width: "100%" }}>
+        {/* Header */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 36 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: V_blue, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <svg width="26" height="22" viewBox="0 0 29 24" fill="none">
+              <path d="M21.1698 0C11.789 0 0.120117 9.706 0.120117 17.75C0.120117 21.905 3.31128 24 7.52604 24C10.6209 24 14.366 22.868 17.9786 20.688V4.636C17.0152 6.286 12.4874 12.933 8.85067 16.474C6.99618 18.28 5.52703 19.063 4.26261 19.063C2.84164 19.063 2.16728 18.099 2.16728 16.666C2.16728 10.164 13.1136 1.71 20.363 1.71C23.3494 1.71 25.2762 3.035 25.2762 5.612C25.2762 7.972 23.6746 10.934 20.941 13.668V18.641C25.7097 14.872 28.5637 10.067 28.5637 6.19C28.5637 2.107 25.3845 0 21.1698 0Z" fill="white"/>
+            </svg>
+          </div>
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 2 }}>
+              {isEn ? "Tester Briefing" : "Note aux testeurs"} · {persona}
+            </div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>
+              {isEn ? "Before you start" : "Avant de commencer"}
+            </div>
+          </div>
+        </div>
+
+        {/* Intro */}
+        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 28 }}>
+          {isEn
+            ? "One Augmented Interface routes exceptions to the right level of attention. Three tiers, calibrated to the complexity of each situation."
+            : "One Augmented Interface route chaque exception vers le bon niveau d'attention. Trois niveaux, calibrés sur la complexité de chaque situation."}
+        </p>
+
+        {/* Cards */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 36 }}>
+          {notes.map((note, i) => (
+            <div key={i} style={{
+              background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: 14, padding: "18px 20px",
+              borderLeft: i < 3 ? `3px solid ${["#22c55e","#f59e0b","#ef4444"][i]}` : "1px solid rgba(255,255,255,0.1)",
+            }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 6 }}>{note.title}</div>
+              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.65 }}>{note.body}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <button onClick={onStart} style={{
+          width: "100%", padding: "18px 24px", borderRadius: 14,
+          background: V_blue, border: "none", cursor: "pointer",
+          fontFamily: "inherit", fontSize: 15, fontWeight: 700, color: "#fff",
+          letterSpacing: "-0.01em", transition: "opacity 0.15s",
+        }}
+        onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+        onMouseLeave={e => e.currentTarget.style.opacity = "1"}>
+          {isEn ? "Start the session →" : "Démarrer la session →"}
+        </button>
       </div>
     </div>
   );
@@ -8178,20 +8452,26 @@ function WelcomeSplash({ initialLang, onStart }) {
 
 function App() {
   const [lang, setLang] = useState(null);
-  const [showSplash, setShowSplash] = useState(true);
+  const [persona, setPersona] = useState(null);
+  const [onboarded, setOnboarded] = useState(false);
   const [view, setView] = useState("home");
   const [cockpitAlertId, setCockpitAlertId] = useState(null);
-  const [persona, setPersona] = useState("ZDP");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [openTourOnCockpit, setOpenTourOnCockpit] = useState(false);
 
-  const handleStart = (selectedLang) => {
-    setLang(selectedLang);
-    setShowSplash(false);
-  };
+  // Step 1: language selection
+  if (lang === null) {
+    return <LanguagePicker onSelect={setLang} />;
+  }
 
-  if (showSplash) {
-    return <WelcomeSplash initialLang={lang || "fr"} onStart={handleStart} />;
+  // Step 2: persona selection
+  if (persona === null) {
+    return <PersonaPicker lang={lang} onSelect={setPersona} />;
+  }
+
+  // Step 3: release note / briefing
+  if (!onboarded) {
+    return <ReleaseNoteScreen lang={lang} persona={persona} onStart={() => setOnboarded(true)} />;
   }
 
   const nav = {
@@ -8200,6 +8480,7 @@ function App() {
     onSeasonPlanning: () => setView("season-planning"),
     onReplenishment: () => setView("replenishment"),
     onShortage: () => setView("shortage"),
+    onCloseSeason: () => setView("close-season"),
     onOpenSettings: () => setView("control-tower"),
     onStartTour: () => { setCockpitAlertId(null); setView("cockpit"); setOpenTourOnCockpit(true); },
   };
@@ -8225,6 +8506,7 @@ function App() {
       {view === "season-planning" && <SeasonPlanningPage {...sharedProps} />}
       {view === "replenishment" && <ReplenishmentPage {...sharedProps} />}
       {view === "shortage" && <ShortageAlertPage {...sharedProps} />}
+      {view === "close-season" && <CloseSeasonPage {...sharedProps} />}
       {view === "control-tower" && (
         <ControlTowerPage
           {...sharedProps}
@@ -8240,39 +8522,12 @@ function App() {
       <AnimatePresence>
         {settingsOpen && <SettingsPanel key="global-settings" onClose={() => setSettingsOpen(false)} lang={lang} />}
       </AnimatePresence>
-
-      {/* Floating briefing button */}
-      <button
-        onClick={() => setShowSplash(true)}
-        title={lang === "en" ? "Tester Briefing" : "Note aux testeurs"}
-        style={{
-          position: "fixed", bottom: 24, right: 24, zIndex: 8000,
-          width: 40, height: 40, borderRadius: "50%",
-          background: "rgba(54,67,186,0.85)", border: "1px solid rgba(54,67,186,0.6)",
-          backdropFilter: "blur(12px)",
-          color: "#fff", fontSize: 16, fontWeight: 700,
-          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 4px 20px rgba(54,67,186,0.4)",
-          transition: "all 0.18s",
-        }}
-        onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.1)"; e.currentTarget.style.background = "#3643BA"; }}
-        onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = "rgba(54,67,186,0.85)"; }}
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.4"/>
-          <path d="M8 7v5M8 5v.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        </svg>
-      </button>
     </>
   );
 }
 
 
-// Mount
-const rootEl = document.getElementById('root');
-const reactRoot = ReactDOM.createRoot(rootEl);
-reactRoot.render(React.createElement(App));
-
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 <script>
 window.addEventListener('DOMContentLoaded', function() {
