@@ -233,6 +233,19 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--c5
 .tl-content{flex:1}
 .tl-event{font-size:14px;color:var(--t)}
 .tl-time{font-size:12px;color:var(--tq);margin-top:2px}
+.template-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.template-card{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--rs);padding:14px;cursor:pointer;transition:border-color .12s,box-shadow .12s}
+.template-card:hover{border-color:var(--c500);box-shadow:0 2px 8px rgba(54,67,186,.12)}
+.template-card-icon{font-size:24px;margin-bottom:8px}
+.template-card-title{font-size:13px;font-weight:700;color:var(--t);margin-bottom:4px}
+.template-card-desc{font-size:12px;color:var(--tq);line-height:1.4}
+.src-info{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid var(--border);color:var(--tq);font-size:10px;font-weight:700;cursor:pointer;margin-left:4px;vertical-align:middle;position:relative}
+.src-info:hover::after{content:attr(data-src);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--t);color:var(--bg);font-size:11px;font-weight:500;padding:4px 8px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:99}
+.seuil-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.seuil-row:last-child{border-bottom:none}
+.seuil-label{font-size:13px;color:var(--t);font-weight:600}
+.seuil-sub{font-size:12px;color:var(--tq)}
+.seuil-input{width:80px;border:1px solid var(--border);border-radius:var(--rf);padding:4px 8px;font-size:13px;font-family:inherit;color:var(--t);background:var(--bg)}
 .config-link{display:flex;align-items:center;gap:4px;font-size:14px;color:var(--c500);cursor:pointer;margin-top:8px;background:none;border:none;font-family:inherit;padding:0}
 .config-link:hover{text-decoration:underline}
 .signal-box{background:var(--y100);border:1px solid var(--y500);border-radius:var(--rs);padding:10px 12px}
@@ -262,6 +275,21 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--c5
 .chat-send-btn{padding:10px 16px;border:none;border-left:1px solid var(--border);background:var(--c500);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.12s}
 .chat-send-btn:hover{background:var(--c700)}
 /* TOAST */
+.quick-validate-btn{display:none;width:100%;margin-top:8px;padding:7px 12px;background:var(--g050);border:1px solid var(--g400);border-radius:var(--rf);color:var(--g600);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .12s;text-align:left}
+.quick-validate-btn:hover{background:var(--g400);color:#fff}
+.kanban-card:hover .quick-validate-btn.qv-visible{display:flex;align-items:center;gap:6px}
+.quick-validate-btn svg{width:14px;height:14px;flex-shrink:0}
+.copilot-fab{position:fixed;bottom:28px;right:28px;z-index:89;display:flex;align-items:center;gap:8px;background:var(--c500);color:#fff;border:none;border-radius:var(--rf);padding:10px 18px 10px 14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 4px 16px rgba(54,67,186,.32);transition:background 0.15s,transform 0.15s}
+.copilot-fab:hover{background:var(--c700);transform:translateY(-1px)}
+.copilot-fab svg{width:18px;height:18px;flex-shrink:0}
+.copilot-fab.hidden{display:none}
+.copilot-panel{position:fixed;bottom:80px;right:28px;z-index:89;width:360px;background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 28px rgba(16,16,16,.18);display:flex;flex-direction:column;overflow:hidden;animation:popIn .14s ease}
+.copilot-panel.hidden{display:none}
+.copilot-panel-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border);font-size:14px;font-weight:700;color:var(--t)}
+.copilot-panel-body{display:flex;flex-direction:column;gap:10px;padding:14px;flex:1}
+.copilot-suggestion{background:var(--bg-alt);border-radius:var(--rs);padding:10px 12px;font-size:14px;color:var(--t);cursor:pointer;border:1px solid transparent;transition:border-color .12s}
+.copilot-suggestion:hover{border-color:var(--c500)}
+.copilot-badge{display:inline-flex;align-items:center;gap:3px;background:var(--c050);color:var(--c500);font-size:11px;font-weight:700;padding:1px 6px;border-radius:var(--rf);margin-right:4px}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--t);color:#fff;padding:10px 18px;border-radius:var(--rs);font-size:14px;font-weight:500;z-index:1000;transform:translateY(60px);opacity:0;transition:all 0.25s;pointer-events:none;display:flex;align-items:center;gap:8px}
 .toast.show{transform:translateY(0);opacity:1}
 .toast-check{width:16px;height:16px;background:var(--g400);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -2403,6 +2431,9 @@ textarea.opn-share-in{resize:vertical}
           <button class="view-switch-btn" data-mode="rootcauses" onclick="switchViewMode('rootcauses')" title="Causes racines">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
           </button>
+          <button class="view-switch-btn" data-mode="history" onclick="switchViewMode('history')" title="Historique décisions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.04"/></svg>
+          </button>
         </div>
       </div>
       <div class="filter-bar" id="more-filters" style="display:none;border-top:none;padding-top:0">
@@ -2448,6 +2479,7 @@ textarea.opn-share-in{resize:vertical}
           <button type="button" class="btn-sm btn-outline" onclick="ddOpenShareBulk()">Partager</button>
           <button type="button" class="btn-sm btn-outline" onclick="actSnooze(getSelectedAlertIds()[0],this)">Reporter</button>
           <button type="button" class="btn-sm btn-outline" onclick="bulkDismiss(this)">Écarter</button>
+          <button type="button" class="btn-sm btn-outline" style="border-color:var(--c500);color:var(--c500)" onclick="showBulkSummary()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg> Voir la synthèse</button>
         </div>
       </div>
 
@@ -2488,6 +2520,9 @@ textarea.opn-share-in{resize:vertical}
       <!-- ROOT CAUSES MODE -->
       <div id="op-mode-rootcauses" class="op-mode" style="flex:1;overflow-y:auto" onscroll="repOpScroll(this)"></div>
 
+      <!-- HISTORY MODE -->
+      <div id="op-mode-history" class="op-mode" style="flex:1;overflow-y:auto;padding:16px" onscroll="repOpScroll(this)"><div id="history-host"></div></div>
+
       <!-- DETAIL PANEL (absolute, full height) -->
 
     </div><!-- end alerting-view -->
@@ -2498,6 +2533,7 @@ textarea.opn-share-in{resize:vertical}
         <div class="home-title">Settings</div>
       </div>
       <div class="config-tabs" style="padding:0 24px;margin-top:12px">
+        <div class="config-tab" id="cfg-tab-seuils" onclick="switchCfgTab('seuils')">Seuils d'alerte</div>
         <div class="config-tab active" id="cfg-tab-alertes" onclick="switchCfgTab('alertes')">Alertes</div>
         <div class="config-tab" id="cfg-tab-regles" onclick="switchCfgTab('regles')">Règles automatiques</div>
         <div class="config-tab" id="cfg-tab-decisions" onclick="switchCfgTab('decisions')">Journal des décisions IA</div>
@@ -2586,6 +2622,32 @@ textarea.opn-share-in{resize:vertical}
 <div id="dd-handoff-host"></div>
 
 <!-- TOAST -->
+<button class="copilot-fab" id="copilot-fab" onclick="toggleCopilotPanel()" title="Copilot IA">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 1 8 8c0 5.25-8 13-8 13S4 15.25 4 10a8 8 0 0 1 8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+  Copilot
+</button>
+<div class="copilot-panel hidden" id="copilot-panel">
+  <div class="copilot-panel-head">
+    <span>Copilot IA</span>
+    <button onclick="toggleCopilotPanel()" style="background:none;border:none;cursor:pointer;color:var(--tq);font-size:18px;line-height:1;padding:0 2px">&times;</button>
+  </div>
+  <div class="copilot-panel-body">
+    <div style="font-size:13px;color:var(--tq);margin-bottom:4px">Suggestions pour votre session :</div>
+    <div class="copilot-suggestion" onclick="ddOpenAIAssistant();toggleCopilotPanel()">
+      <span class="copilot-badge">IA</span>Analyser les alertes critiques en cours
+    </div>
+    <div class="copilot-suggestion" onclick="switchView(&apos;operate-new&apos;);toggleCopilotPanel()">
+      <span class="copilot-badge">IA</span>Voir l'activité autonome de cette semaine
+    </div>
+    <div class="copilot-suggestion" onclick="if(typeof switchCfgTab==='function'){switchView('config');switchCfgTab('decisions');}toggleCopilotPanel()">
+      <span class="copilot-badge">IA</span>Consulter le journal des décisions IA
+    </div>
+    <div class="chat-input-row" style="border:1px solid var(--border);border-radius:var(--rs);overflow:hidden;margin-top:4px">
+      <input class="chat-input" type="text" placeholder="Posez une question à l'IA..." id="copilot-input">
+      <button class="chat-send-btn" onclick="showToast(ddT('Question envoyée au Copilot','Question sent to Copilot'))"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast">
   <div class="toast-check">
     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
@@ -3100,7 +3162,7 @@ function ddTableRowsHtml(a){
     var isClusterExpanded = a.cluster > 0 && expandedClusters[a.id];
     html+='<tr class="data-row'+(isClusterExpanded?' cluster-parent-expanded':'')+'" data-id="'+a.id+'" onclick="selectRow('+a.id+',this)">';
     html+='<td onclick="event.stopPropagation()"><input type="checkbox" class="row-cb" '+(selectedSet.has(a.id)?'checked':'')+' onchange="toggleAlertSelect('+a.id+',event)"></td>';
-    html+='<td><span class="sev-badge '+severityClass(a.severity)+'">'+severityLabel(a.severity)+'</span></td>';
+    html+='<td><span class="sev-badge '+severityClass(a.severity)+'">'+severityLabel(a.severity)+'</span>'+(a.resolvedBy==='ai'?'<span style="margin-left:4px;display:inline-flex;align-items:center;gap:3px;background:var(--g050);color:var(--g600);font-size:11px;font-weight:700;padding:1px 6px;border-radius:var(--rf)">IA auto</span>':'')+'</td>';
     html+='<td><div style="font-weight:600;color:'+alertTitleColor(a)+'">'+a.name;
     if(a.cluster>0) html+=' <button type="button" class="cluster-badge-btn'+(expandedClusters[a.id]?' expanded':'')+'" onclick="event.stopPropagation();event.preventDefault();toggleCluster('+a.id+');return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 6 15 12 9 18"/></svg>'+a.cluster+' alertes liées</button>';
     html+='</div>';
@@ -3117,6 +3179,8 @@ function ddTableRowsHtml(a){
     html+='<td><span class="type-tag '+typeClass(a.type)+'">'+a.type+'</span></td>';
     html+='<td><span class="impact-val">'+(a.impact||'<span class="impact-na">-</span>')+'</span></td>';
     html+='<td><span class="'+confClass(a.confidence)+'">'+confLabel(a.confidence)+'</span></td>';
+    var _qvRow=(a.status==='pending'&&(a.severity==='critical'||a.severity==='high')&&a.confidence==='high');
+    html+='<td>'+(_qvRow?'<button class="btn-sm" style="background:var(--g050);border-color:var(--g400);color:var(--g600);font-weight:700" onclick="event.stopPropagation();actValidate('+a.id+',this)">'+ddT('Valider →','Validate →')+'</button>':'')+'</td>';
     html+='<td>';
     var _ta=assigneeHtml(a); html+=_ta||'<div style="font-size:12px;color:var(--tq)">-</div>';
     html+='</td>';
@@ -3319,6 +3383,45 @@ function bulkValidate() {
   updateBulk();
 }
 
+function showBulkSummary() {
+  var ids = getSelectedAlertIds();
+  var sel = alerts.filter(function(a){ return ids.indexOf(a.id) >= 0; });
+  if(!sel.length) return;
+  var totImpact = 0, bySev={critical:0,high:0,medium:0,low:0}, byType={};
+  sel.forEach(function(a){
+    totImpact += parseFloat((a.impact||'0').replace(/[^0-9.]/g,''))||0;
+    if(bySev[a.severity]!==undefined) bySev[a.severity]++;
+    byType[a.type]=(byType[a.type]||0)+1;
+  });
+  var sevColors={critical:'var(--rd400)',high:'var(--o500)',medium:'var(--y700)',low:'var(--tq)'};
+  var sevLabels={critical:'Critique',high:'Haute',medium:'Moyenne',low:'Basse'};
+  var h='<div style="background:var(--bg);border-radius:var(--rs);overflow:hidden;box-shadow:0 8px 28px rgba(16,16,16,.18);max-width:440px;width:100%">';
+  h+='<div style="padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">';
+  h+='<div style="font-size:15px;font-weight:700;color:var(--t)">'+ddT('Synthèse de la sélection','Selection summary')+'</div>';
+  h+='<button onclick="closePopover()" style="background:none;border:none;cursor:pointer;color:var(--tq);font-size:18px">&times;</button></div>';
+  h+='<div style="padding:16px 18px">';
+  // Impact total
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">';
+  h+='<div style="background:var(--bg-alt);border-radius:var(--rs);padding:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tq);margin-bottom:4px">'+ddT('Impact total','Total impact')+'</div><div style="font-size:22px;font-weight:800;color:var(--t)">'+Math.round(totImpact)+'K€</div></div>';
+  h+='<div style="background:var(--bg-alt);border-radius:var(--rs);padding:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tq);margin-bottom:4px">'+ddT('Alertes sélectionnées','Selected alerts')+'</div><div style="font-size:22px;font-weight:800;color:var(--t)">'+sel.length+'</div></div>';
+  h+='</div>';
+  // By severity
+  h+='<div style="font-size:12px;font-weight:700;color:var(--tq);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">'+ddT('Répartition par sévérité','By severity')+'</div>';
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">';
+  ['critical','high','medium','low'].forEach(function(s){ if(bySev[s]) h+='<span style="background:'+sevColors[s]+'20;color:'+sevColors[s]+';font-size:13px;font-weight:700;padding:3px 10px;border-radius:var(--rf)">'+sevLabels[s]+' · '+bySev[s]+'</span>'; });
+  h+='</div>';
+  // By type
+  h+='<div style="font-size:12px;font-weight:700;color:var(--tq);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">'+ddT('Répartition par type','By type')+'</div>';
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap">';
+  Object.keys(byType).forEach(function(t){ h+='<span style="background:var(--bg-alt);color:var(--tq);font-size:12px;font-weight:600;padding:2px 8px;border-radius:3px;border:1px solid var(--border)">'+t+' · '+byType[t]+'</span>'; });
+  h+='</div></div>';
+  h+='<div style="padding:0 18px 14px;display:flex;gap:8px;justify-content:flex-end">';
+  h+='<button class="btn-sm btn-primary" onclick="bulkValidateAll();closePopover()">'+ddT('Valider la sélection','Validate all')+'</button>';
+  h+='<button class="btn-sm btn-outline" onclick="closePopover()">'+ddT('Fermer','Close')+'</button>';
+  h+='</div></div>';
+  var btn=document.getElementById('bulk-bar');
+  if(btn) showPopover(h, btn);
+}
 function bulkValidateAll() {
   var ids = getSelectedAlertIds();
   var count = 0;
@@ -3520,7 +3623,7 @@ function renderConfigContent() {
   // AI Learning Summary
   // KPI strip for alerts tab
   html += '<div class="kpi-strip" style="margin:12px 0 16px;border:1px solid var(--border);border-radius:var(--rs)">';
-  var alertKpis = [{label:ddT('Alertes actives','Active alerts'),value:'19',sub:ddT('dont 4 critiques','incl. 4 critical')},{label:ddT('Taux de traitement','Handling rate'),value:'78%',sub:ddT('+6pts vs S-1','+6pts vs W-1')},{label:ddT('Temps moyen de réaction','Average reaction time'),value:'4.2h',sub:ddT('cible < 2h','target < 2h')}];
+  var _aiSt=ddAutoStat(); var alertKpis = [{label:ddT('Alertes actives','Active alerts'),value:'19',sub:ddT('dont 4 critiques','incl. 4 critical')},{label:ddT('Taux de traitement','Handling rate'),value:'78%',sub:ddT('+6pts vs S-1','+6pts vs W-1')},{label:ddT('Temps moyen de réaction','Average reaction time'),value:'4.2h',sub:ddT('cible < 2h','target < 2h')},{label:ddT('Traitées par l\'IA','AI-handled'),value:String(_aiSt.ai||7),sub:ddT('cette semaine ('+(_aiSt.pct||78)+'%)','this week ('+(_aiSt.pct||78)+'%)')}];
   alertKpis.forEach(function(k) {
     html += '<div class="kpi-strip-item"><div class="kpi-strip-label">'+k.label+'</div><div class="kpi-strip-values"><span class="kpi-strip-current">'+k.value+'</span></div><div style="font-size:11px;color:var(--tq);margin-top:1px">'+k.sub+'</div></div>';
   });
@@ -3550,7 +3653,7 @@ function renderConfigContent() {
   // Rules header
   html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">';
   html += '<div style="font-size:16px;font-weight:700;color:var(--t)">'+ddT('Règles d\'alerte','Alert rules')+' (' + alertRules.length + ')</div>';
-  html += '<button class="btn-sm btn-primary" onclick="showCreateRuleChat()">+ '+ddT('Créer une règle','Create a rule')+'</button>';
+  html += '<button class="btn-sm btn-primary" onclick="showTemplateGallery(event)">+ '+ddT('Créer une règle','Create a rule')+'</button>';
   html += '</div>';
 
   alertRules.forEach(function(rule) {
@@ -3647,19 +3750,69 @@ function toggleRuleActive(ruleId) {
   renderConfigContent();
 }
 
-function showCreateRuleChat() {
+function showTemplateGallery(evt) {
+  var templates=[
+    {icon:'📦',title:ddT('Rupture stock','Stock shortage'),desc:ddT('Déclenche si stock < seuil J jours','Trigger when stock < threshold'),prompt:'Règle de détection de rupture stock'},
+    {icon:'📈',title:ddT('Dérive forecast','Forecast drift'),desc:ddT('Alerte si biais > X% sur N semaines','Alert if bias > X% over N weeks'),prompt:'Règle de biais forecast'},
+    {icon:'🔁',title:ddT('Sur-stock','Overstock'),desc:ddT('Alerte si DSI dépasse la cible','Alert when DSI exceeds target'),prompt:'Règle de sur-stock'},
+    {icon:'⚡',title:ddT('Commande urgence','Emergency order'),desc:ddT('Valide auto si conf. IA > 90%','Auto-validate when AI conf > 90%'),prompt:'Règle de commande urgence'},
+    {icon:'📊',title:ddT('Performance SR','SR performance'),desc:ddT('Alerte si taux de service < cible','Alert when service rate < target'),prompt:'Règle de taux de service'},
+    {icon:'✏️',title:ddT('Personnalisée','Custom'),desc:ddT('Définissez vos propres conditions','Define your own conditions'),prompt:''},
+  ];
+  var h='<div style="background:var(--bg);border-radius:var(--rs);overflow:hidden;box-shadow:0 8px 28px rgba(16,16,16,.18);max-width:480px;width:100%">';
+  h+='<div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">';
+  h+='<div style="font-size:14px;font-weight:700;color:var(--t)">'+ddT('Choisir un modèle de règle','Choose a rule template')+'</div>';
+  h+='<button onclick="closePopover()" style="background:none;border:none;cursor:pointer;color:var(--tq);font-size:18px">&times;</button></div>';
+  h+='<div class="template-gallery" style="padding:14px 18px">';
+  templates.forEach(function(t){
+    h+='<div class="template-card" onclick="closePopover();showCreateRuleChat(\x27'+t.prompt+'\x27)">'+
+      '<div class="template-card-icon">'+t.icon+'</div>'+
+      '<div class="template-card-title">'+t.title+'</div>'+
+      '<div class="template-card-desc">'+t.desc+'</div></div>';
+  });
+  h+='</div></div>';
+  if(evt) showPopover(h, evt.target);
+}
+function showCreateRuleChat(prefill) {
   var section = document.getElementById('create-rule-section');
   if (section) {
-    section.style.display = section.style.display === 'none' ? 'block' : 'none';
-    if (section.style.display === 'block') section.scrollIntoView({behavior:'smooth',block:'start'});
+    section.style.display = 'block';
+    section.scrollIntoView({behavior:'smooth',block:'start'});
+    if(prefill){
+      var inp=section.querySelector('.chat-input');
+      if(inp){ inp.value=prefill; inp.focus(); }
+    }
   }
 }
 
+function renderSeuilsTab(){
+  var el=document.getElementById('config-rules-content');
+  if(!el) return;
+  var h='<div style="padding:20px 0">';
+  h+='<div style="font-size:16px;font-weight:800;color:var(--t);margin-bottom:4px">'+ddT("Seuils d'alerte",'Alert thresholds')+'</div>';
+  h+='<div style="font-size:13px;color:var(--tq);margin-bottom:20px">'+ddT("Niveaux de déclenchement par catégorie d'anomalie.",'Trigger levels by anomaly category.')+'</div>';
+  var seuils=[
+    {label:ddT('Rupture stock critique','Critical stock shortage'),sub:ddT('Déclenche alerte critique','Triggers critical alert'),val:3,unit:ddT('jours','days')},
+    {label:ddT('Biais forecast','Forecast bias'),sub:ddT('Alerte haute si dépassé','High alert if exceeded'),val:15,unit:'%'},
+    {label:ddT('Sur-stock (DSI)','Overstock (DSI)'),sub:ddT('Alerte moyenne si DSI dépasse','Medium alert if DSI exceeds'),val:45,unit:ddT('jours','days')},
+    {label:ddT('Taux de service (SR)','Service rate (SR)'),sub:ddT('Alerte haute si SR en dessous','High alert if SR falls below'),val:95,unit:'%'},
+    {label:ddT('Dérive croissance','Growth drift'),sub:ddT('Écart vs prévision Plan','Gap vs Plan forecast'),val:10,unit:'%'},
+  ];
+  seuils.forEach(function(s){
+    h+='<div class="seuil-row"><div><div class="seuil-label">'+s.label+'</div><div class="seuil-sub">'+s.sub+'</div></div>';
+    h+='<div style="display:flex;align-items:center;gap:6px"><input class="seuil-input" type="number" value="'+s.val+'" min="0"> <span style="font-size:13px;color:var(--tq)">'+s.unit+'</span></div></div>';
+  });
+  h+='<div style="margin-top:20px;display:flex;gap:8px"><button class="btn-sm btn-primary" onclick="showToast(ddT(&apos;Seuils sauvegardés&apos;,&apos;Thresholds saved&apos;))">'+ddT('Enregistrer','Save')+'</button>';
+  h+='<button class="btn-sm btn-outline" onclick="showToast(ddT(&apos;Seuils réinitialisés&apos;,&apos;Thresholds reset&apos;))">'+ddT('Réinitialiser','Reset')+'</button></div>';
+  h+='</div>';
+  el.innerHTML=h;
+}
 function switchCfgTab(tab) {
   currentCfgTab = tab;
   document.querySelectorAll('#view-config .config-tab').forEach(function(t) { t.classList.remove('active'); });
   var tabEl = document.getElementById('cfg-tab-' + tab);
   if (tabEl) tabEl.classList.add('active');
+  if(tab==='seuils'){ renderSeuilsTab(); return; }
   renderConfigContent();
 }
 
@@ -4008,6 +4161,35 @@ function goToConfigFromAlert(threshKey) {
   renderConfigContent();
 }
 
+function toggleCopilotPanel(){
+  var fab=document.getElementById('copilot-fab');
+  var panel=document.getElementById('copilot-panel');
+  if(!panel) return;
+  var isHidden=panel.classList.contains('hidden');
+  panel.classList.toggle('hidden',!isHidden);
+}
+function ddOpenAIAssistant(){
+  var btn=document.querySelector('.topbar-icon-btn.ai');
+  if(btn) btn.click();
+}
+// Hide copilot fab when deep dive is open
+(function(){
+  var _origShowFp=window.showFullPage;
+  // We'll check on fullpage show/hide via MutationObserver
+  var _fab=null;
+  function _updateFab(){
+    if(!_fab) _fab=document.getElementById('copilot-fab');
+    if(!_fab) return;
+    var fp=document.querySelector('.fullpage.show');
+    _fab.classList.toggle('hidden', !!fp);
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var obs=new MutationObserver(_updateFab);
+    var fp=document.querySelector('.fullpage');
+    if(fp) obs.observe(fp,{attributes:true,attributeFilter:['class']});
+    _updateFab();
+  });
+})();
 function showToast(msg) {
   var toast = document.getElementById('toast');
   var text = document.getElementById('toast-text');
@@ -4069,7 +4251,9 @@ function renderFullpage(id, ctx) {
     html += '</div></div>';
   } else if (d.cause) {
     html += '<div class="fp-section"><div class="fp-section-title">' + 'Problème rencontré' + ' ' + aiTag + '</div>';
-    html += '<div class="fp-cause-box">' + d.cause + '</div></div>';
+    html += '<div class="fp-cause-box">' + d.cause + '</div>';
+    html += '<div style="margin-top:10px"><button class="config-link" onclick="switchView(&apos;plan&apos;)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'+ddT('Voir dans le Plan →','See in Plan →')+'</button></div>';
+    html += '</div>';
   }
   // Recos
   if (d.recos && d.recos.length > 0) {
@@ -4288,6 +4472,49 @@ function openAlertInPlace(id) {
   document.getElementById('view-alerting').classList.add('panel-open');
 }
 
+function renderHistory(){
+  var hist = [
+    {ts:'S-0 · Lundi 13h',actor:'IA',type:'validate',label:'Commande promo TV 46" acceptée',severity:'high',scope:'CDG2 · PGC'},
+    {ts:'S-0 · Lundi 11h30',actor:'Humain',type:'adjust',label:'Seuil stock ajusté -2 jours (Bastien)',severity:'medium',scope:'RUNC · Frais'},
+    {ts:'S-1 · Vendredi 15h',actor:'IA',type:'validate',label:'Révision forecast été acceptée',severity:'critical',scope:'CDG1 · Saisonnier'},
+    {ts:'S-1 · Vendredi 09h',actor:'Humain',type:'dismiss',label:'Alerte saisonnalité écartée (fausse alerte)',severity:'low',scope:'RUNC · PGC'},
+    {ts:'S-1 · Jeudi 14h',actor:'IA',type:'snooze',label:'Reporter décision rupture partielle J+2',severity:'medium',scope:'CDG2 · Frais'},
+    {ts:'S-2 · Lundi 16h',actor:'Humain',type:'validate',label:'Commande urgence boissons validée',severity:'critical',scope:'RUNC · Boissons'},
+  ];
+  var actColors={validate:'var(--g600)',adjust:'var(--c500)',dismiss:'var(--tq)',snooze:'var(--o500)'};
+  var actLabels={validate:'Validé',adjust:'Ajusté',dismiss:'Écarté',snooze:'Reporté'};
+  var actIcons={
+    validate:'<polyline points="20 6 9 17 4 12"/>',
+    adjust:'<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+    dismiss:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+    snooze:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'
+  };
+  var totAI=hist.filter(function(x){return x.actor==='IA';}).length;
+  var totHuman=hist.length-totAI;
+  var h='<div style="font-size:16px;font-weight:800;color:var(--t);margin-bottom:16px">'+ddT('Historique des décisions','Decision history')+'</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">';
+  h+='<div style="background:var(--c050);border-radius:var(--rs);padding:12px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--c500)">'+totAI+'</div><div style="font-size:12px;color:var(--tq);font-weight:600">'+ddT("Traitées par l'IA","Handled by AI")+'</div></div>';
+  h+='<div style="background:var(--bg-alt);border-radius:var(--rs);padding:12px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--t)">'+totHuman+'</div><div style="font-size:12px;color:var(--tq);font-weight:600">'+ddT('Décisions humaines','Human decisions')+'</div></div>';
+  h+='<div style="background:var(--bg-alt);border-radius:var(--rs);padding:12px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--t)">'+hist.length+'</div><div style="font-size:12px;color:var(--tq);font-weight:600">'+ddT('Total 2 semaines','Total 2 weeks')+'</div></div>';
+  h+='</div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px">';
+  hist.forEach(function(item){
+    var isAI=item.actor==='IA';
+    var actColor=actColors[item.type]||'var(--tq)';
+    var icon=actIcons[item.type]||'';
+    h+='<div style="background:'+(isAI?'var(--c050)':'var(--bg-alt)')+';border-radius:var(--rs);padding:10px 14px;display:flex;align-items:center;gap:12px;border:1px solid var(--border)">';
+    h+='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="'+actColor+'" stroke-width="2.5">'+icon+'</svg>';
+    h+='<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;color:var(--t);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+item.label+'</div>';
+    h+='<div style="font-size:12px;color:var(--tq);margin-top:2px">'+item.scope+'</div></div>';
+    h+='<div style="flex-shrink:0;text-align:right"><div style="font-size:11px;font-weight:700;color:'+actColor+';text-transform:uppercase;letter-spacing:.3px">'+actLabels[item.type]+'</div>';
+    h+='<div style="font-size:11px;color:var(--tq);margin-top:2px">'+item.ts+'</div></div>';
+    if(isAI) h+='<span style="background:var(--c500);color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:3px;flex-shrink:0">IA</span>';
+    h+='</div>';
+  });
+  h+='</div>';
+  var host=document.getElementById('history-host');
+  if(host) host.innerHTML=h;
+}
 function switchViewMode(mode) {
   currentViewMode = mode;
   document.querySelectorAll('.view-switch-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -4300,6 +4527,7 @@ function switchViewMode(mode) {
   else if (mode === 'map') renderMap();
   else if (mode === 'timeline') renderTimeline();
   else if (mode === 'rootcauses') renderRootCauses();
+  else if (mode === 'history') renderHistory();
   if (mode !== 'table') closePanel();
 }
 
@@ -4343,6 +4571,7 @@ function ddAlertCardHtml(a, opts){
   if(opts.checkbox) h+='<input type="checkbox" class="sel-cb" '+(selectedSet.has(a.id)?'checked':'')+' onclick="toggleAlertSelect('+a.id+',event)">';
   if(opts.sevLabel) h+='<span class="sev-badge '+severityClass(a.severity)+'">'+severityLabel(a.severity)+'</span>';
   h+='<div class="kanban-card-title" style="color:'+alertTitleColor(a)+'">'+alertCardTitle(a)+'</div>';
+  if(a.resolvedBy==='ai') h+='<span style="flex-shrink:0;display:inline-flex;align-items:center;gap:3px;background:var(--g050);color:var(--g600);font-size:11px;font-weight:700;padding:2px 7px;border-radius:var(--rf)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>IA</span>';
   h+='</div>';
   h+='<div class="kanban-card-footer"><span class="tl-card-tag tag-lieu">'+alertLieu(a)+'</span><span class="tl-card-tag tag-canal">'+alertCanal(a)+'</span>';
   /* assignee vignette removed */
@@ -4350,6 +4579,8 @@ function ddAlertCardHtml(a, opts){
   h+='<div class="kanban-card-desc">'+a.desc+'</div>';
   if(a.cluster>0 && cd && cd.children) h+='<button type="button" class="kanban-cluster-badge'+(expandedClusters[a.id]?' expanded':'')+'" onclick="event.stopPropagation();toggleCluster('+a.id+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 6 15 12 9 18"/></svg>'+a.cluster+' alertes liées</button>';
   h+='<div class="kanban-card-actions">'+alertActionsHtml(a.id, opts.repDrawer)+'</div>';
+  var _qv=(a.status==='pending'&&(a.severity==='critical'||a.severity==='high')&&a.confidence==='high');
+  if(_qv) h+='<button class="quick-validate-btn qv-visible" onclick="event.stopPropagation();actValidate('+a.id+',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'+ddT('Valider directement →','Validate directly →')+'</button>';
   h+='</div>';
   if(a.cluster>0 && cd && cd.children && expandedClusters[a.id]){ cd.children.forEach(function(c,ci){ h+=ddAlertChildCardHtml(a.id,c,ci,opts); }); }
   return h;
@@ -7757,6 +7988,20 @@ function gaiApplyPush(){ var ca=document.querySelector('.content-area'); if(!gai
 function gaiToggle(){ var dr=document.getElementById('gai-drawer'); if(!dr) return; gaiState.open=!gaiState.open; var tab=document.getElementById('gai-rail-tab'); if(gaiState.open){ if(typeof ddAgent!=='undefined'){ var _lg=ddAgent.log; var _og=(_lg.length===0)||(_lg.length===1&&_lg[0]&&_lg[0].greet); if(_og){ ddAgent.log=[{role:'ai',html:gaiGreet(),greet:true}]; } } gaiRenderDrawer(); dr.classList.add('open'); if(tab) tab.classList.add('on'); if(typeof ddAgentRender==='function') ddAgentRender(); } else { dr.classList.remove('open'); if(tab) tab.classList.remove('on'); } gaiApplyPush(); }
 function gaiSync(){ var rail=document.getElementById('gai-rail'); if(!rail) return; var v=currentView||''; var fpEl=document.getElementById('fullpage'); var ddEl=document.getElementById('deepdive'); var inDeep=!!(ddEl&&ddEl.classList.contains('show')); var show=(v==='home'||v==='alerting'||v==='config'||v==='plan'||v==='optimize'||inDeep); if(fpEl&&fpEl.classList.contains('show')) show=false; rail.style.display=show?'':'none'; if(!gaiState.open) rail.style.right=''; if(!show && gaiState.open){ gaiState.open=false; var dr=document.getElementById('gai-drawer'); if(dr) dr.classList.remove('open'); var tab=document.getElementById('gai-rail-tab'); if(tab) tab.classList.remove('on'); } document.querySelectorAll('.rep-rail').forEach(function(r){ if(r.id!=='gai-rail') r.style.display=inDeep?'none':''; }); if(inDeep){ document.querySelectorAll('.rep-aidrawer.open,.rep-adrawer.open').forEach(function(d){ d.classList.remove('open'); }); } var ctxSig=inDeep?('dd:'+((typeof dd!=='undefined'&&dd&&(dd.caseKey||dd.entry))||'')+':'+((typeof dd!=='undefined'&&dd&&dd.alertId)||'')):('view:'+v); if(!show){ gaiSync._ctx='(hidden)'; } else if(gaiSync._ctx!==ctxSig){ gaiSync._ctx=ctxSig; if(typeof ddAgent!=='undefined'){ if(ddAgent.timer){clearTimeout(ddAgent.timer);ddAgent.timer=null;} ddAgent.pending=false; ddAgent.log=[{role:'ai',html:gaiGreet(),greet:true}]; if(gaiState.open){ if(typeof gaiRenderDrawer==='function') gaiRenderDrawer(); if(typeof ddAgentRender==='function') ddAgentRender(); } } } if(typeof gaiApplyPush==='function') gaiApplyPush(); }
 
+function getAlertCountForMetric(metricKey){
+  var keywords={'sr':['service','sr','taux'],'bias':['biais','bias','forecast'],'growth':['croissance','growth','ca'],'margin':['marge','margin','profit'],'shortage':['rupture','shortage','stock'],'dsi':['dsi','couverture','stock']};
+  var kws=keywords[metricKey]||[];
+  return alerts.filter(function(a){
+    var t=(a.title||'').toLowerCase()+(a.type||'').toLowerCase();
+    return a.status==='pending' && kws.some(function(k){return t.indexOf(k)>=0;});
+  }).length;
+}
+function alertBadgeHtml(metricKey,compact){
+  var cnt=getAlertCountForMetric(metricKey);
+  if(!cnt) return '';
+  var small=compact?'font-size:10px;padding:1px 5px':'font-size:11px;padding:2px 7px';
+  return '<span style="'+small+';background:var(--rd400);color:#fff;border-radius:var(--rf);font-weight:700;margin-left:6px;vertical-align:middle">'+cnt+'⚠</span>';
+}
 function renderReports(){ renderRepNav(); renderRepMain(); }
 function renderRepNav(){
   var nav=document.getElementById('rep-nav'); if(!nav) return;
@@ -9152,6 +9397,7 @@ function planEntryCards(){
 /* ---- S1 body ---- */
 function planStepS1(){
   var h='';
+  h+=planAlertBridgeHtml('current');
   h+=planBpKpisHtml();
   /* ranked scenarios FIRST */
   h+='<div style="font-size:15px;font-weight:800;color:var(--t);margin:4px 0 12px">'+ddT('Scénarios de tactique de dispatch (classés)','Dispatch-tactic scenarios (ranked)')+'</div>';
@@ -9493,6 +9739,18 @@ var PLAN_BP_KPIS=[
   {l:['CO2 transport','Transport CO2'], c:'-5%', a:'-10%', r:'-7%'}
 ];
 function planBpVal(v){ return Array.isArray(v)?ddT(v[0],v[1]):v; }
+function planAlertBridgeHtml(scope){
+  var scopeAlerts=alerts.filter(function(a){return a.status==='pending'&&(a.severity==='critical'||a.severity==='high');});
+  var cnt=scopeAlerts.length;
+  var tot=0; scopeAlerts.forEach(function(a){tot+=parseFloat((a.impact||'0').replace(/[^0-9.]/g,''))||0;});
+  if(!cnt) return '';
+  return '<div style="background:var(--rd050);border:1px solid var(--rd400);border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">'
+    +'<div><span style="font-size:13px;font-weight:700;color:var(--rd400)">'+cnt+' '+ddT('alerte'+(cnt>1?'s':'') +' active'+(cnt>1?'s':'') +' sur ce périmètre','active alert'+(cnt>1?'s':'')+' on this scope')+'</span>'
+    +'<div style="font-size:12px;color:var(--tq);margin-top:2px">'+ddT('Risque total :','Total risk:')+' '+Math.round(tot)+'K€ &middot; '
+    +ddT('dont ','incl. ')+scopeAlerts.filter(function(a){return a.severity==='critical';}).length+' '+ddT('critiques','critical')+'</div></div>'
+    +'<button class="btn-sm btn-outline" style="flex-shrink:0" onclick="switchView(&apos;alerting&apos;);filterByType(null,null)" >'+ddT('Voir dans Operate →','See in Operate →')+'</button>'
+    +'</div>';
+}
 function planBpKpisHtml(){
   var h='<div style="margin-bottom:22px">';
   h+='<div style="font-size:15px;font-weight:800;color:var(--t);margin-bottom:10px">'+ddT('Objectifs de saison','Season objectives')+'</div>';
@@ -9753,7 +10011,7 @@ var OPN_SET_OVER=[
   adj:[null,null,null,null,null,null,1000,1900,1980,1680,1300,1030,810,650,510,410,340,290,250,210],
   impact:[{l:['Couverture','Coverage'],base:['6,8 sem','6.8 wk'],proj:['6,1 sem','6.1 wk']},
           {l:['Risque surstock','Overstock risk'],base:['Élevé','High'],proj:['Modéré','Moderate']},
-          {l:['Marge impactée','Margin impact'],base:['0 pt','0 pt'],proj:['-1,2 pt','-1.2 pt']}]}
+          {l:[currentPersona==='zdp'?'Forecast impact':'Marge impactée',currentPersona==='zdp'?'Forecast impact':'Margin impact'],base:[currentPersona==='zdp'?'-0.7 pt':' 0 pt',currentPersona==='zdp'?'-0.7 pt':'0 pt'],proj:[currentPersona==='zdp'?'+1.2 pt':'-1,2 pt',currentPersona==='zdp'?'+1.2 pt':'-1.2 pt']}]}
 ];
 
 /* alerts */
