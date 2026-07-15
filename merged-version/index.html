@@ -7688,8 +7688,10 @@ function opnSyncFromAlert(aid){
   }
 }
 function ddNotifGoDeepdive(aid, focus){
-  if(typeof switchView==='function') switchView('alerting');
+  // Sync scope first so switchView renders Operate with the right alert
   if(typeof opnSyncFromAlert==='function') opnSyncFromAlert(aid);
+  if(typeof switchView==='function') switchView('alerting');
+  // switchView already calls renderOperateNew — no need to call it again
   openDeepdive(aid,'alert'); dd.convMode='humans'; renderDeepdive();
   setTimeout(function(){
     if(focus){ var inp=document.getElementById('fp-collab-input'); if(inp){ inp.focus(); return; } }
@@ -7699,10 +7701,18 @@ function ddNotifGoDeepdive(aid, focus){
   },150);
 }
 function ddNotifMarkAlertRead(aid){ ddNotifs.forEach(function(n){ if(n.alertId===aid) n.read=true; }); updateNotifBadge(); }
-function ddNotifOpenA(aid){ ddNotifMarkAlertRead(aid); closePopover(); ddNotifGoDeepdive(aid,false); }
-function ddNotifReply(aid){ ddNotifMarkAlertRead(aid); closePopover(); ddNotifGoDeepdive(aid,true); }
-function ddNotifValidate(aid){ ddNotifMarkAlertRead(aid); closePopover(); if(typeof switchView==='function') switchView('alerting'); if(typeof opnSyncFromAlert==='function') opnSyncFromAlert(aid); if(typeof renderOperateNew==='function') renderOperateNew(); actValidate(aid,null); }
-function ddNotifSeeAll(){ var saved=ddNotifFilter; ddNotifFilter='all'; var body=ddNotifBodyHtml(); ddNotifFilter=saved; closePopover(); ddActModal(ddT('Toutes les notifications','All notifications'), '<div style="max-height:56vh;overflow-y:auto;border:1px solid var(--border);border-radius:var(--rs)">'+body+'</div>', '<span class="sp"></span><button class="dd-btn" onclick="ddCloseAct()">'+ddT('Fermer','Close')+'</button>'); }
+// ddCloseAct() needed here too — handles the case where click comes from the "See all" modal
+function ddNotifOpenA(aid){ ddNotifMarkAlertRead(aid); closePopover(); if(typeof ddCloseAct==='function') ddCloseAct(); ddNotifGoDeepdive(aid,false); }
+function ddNotifReply(aid){ ddNotifMarkAlertRead(aid); closePopover(); if(typeof ddCloseAct==='function') ddCloseAct(); ddNotifGoDeepdive(aid,true); }
+function ddNotifValidate(aid){ ddNotifMarkAlertRead(aid); closePopover(); if(typeof ddCloseAct==='function') ddCloseAct(); if(typeof switchView==='function') switchView('alerting'); if(typeof opnSyncFromAlert==='function') opnSyncFromAlert(aid); if(typeof renderOperateNew==='function') renderOperateNew(); actValidate(aid,null); }
+function ddNotifSeeAll(){
+  var saved=ddNotifFilter; ddNotifFilter='all'; var body=ddNotifBodyHtml(); ddNotifFilter=saved;
+  closePopover();
+  // Render the "see all" modal — items use ddNotifOpenA which now closes the modal before navigating
+  ddActModal(ddT('Toutes les notifications','All notifications'),
+    '<div style="max-height:56vh;overflow-y:auto;border:1px solid var(--border);border-radius:var(--rs)">'+body+'</div>',
+    '<span class="sp"></span><button class="dd-btn" onclick="ddCloseAct()">'+ddT('Fermer','Close')+'</button>');
+}
 
 // ============ Assistant IA (copilote) ============
 var ddAgent={log:[], history:[], pending:false, timer:null, wide:false, releaseDismissed:false};
