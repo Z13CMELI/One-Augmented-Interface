@@ -2466,6 +2466,23 @@ textarea.opn-share-in{resize:vertical}
         <button class="filter-chip" data-fg="sport" onclick="filterBySport('Luge',this)">Luge</button>
         <button class="filter-chip" data-fg="sport" onclick="filterBySport('Patinage',this)">Patinage</button>
         <div class="filter-sep"></div>
+        <div class="filter-sep"></div>
+        <span class="filter-grouplbl">Pays</span>
+        <button class="filter-chip" data-fg="pays" onclick="filterByPays('France',this)">France</button>
+        <button class="filter-chip" data-fg="pays" onclick="filterByPays('Allemagne',this)">Allemagne</button>
+        <button class="filter-chip" data-fg="pays" onclick="filterByPays('Espagne',this)">Espagne</button>
+        <button class="filter-chip" data-fg="pays" onclick="filterByPays('Italie',this)">Italie</button>
+        <div class="filter-sep"></div>
+        <span class="filter-grouplbl">Canal</span>
+        <button class="filter-chip" data-fg="canal" onclick="filterByCanal('Retail',this)">Retail</button>
+        <button class="filter-chip" data-fg="canal" onclick="filterByCanal('Ecom',this)">Ecom</button>
+        <button class="filter-chip" data-fg="canal" onclick="filterByCanal('Omni',this)">Omni</button>
+        <div class="filter-sep"></div>
+        <span class="filter-grouplbl">Code AB</span>
+        <button class="filter-chip" data-fg="codeab" onclick="filterByCodeAB('A',this)">A — Best-seller</button>
+        <button class="filter-chip" data-fg="codeab" onclick="filterByCodeAB('B',this)">B — Standard</button>
+        <button class="filter-chip" data-fg="codeab" onclick="filterByCodeAB('C',this)">C — Long tail</button>
+        <div class="filter-sep"></div>
         <button class="filter-chip" onclick="clearAllFilters(this)" style="color:var(--rd400)">Réinitialiser</button>
       </div>
       </div><!-- end alert-sticky-bar -->
@@ -2500,6 +2517,7 @@ textarea.opn-share-in{resize:vertical}
                 <th class="sortable" data-sort="type" style="width:105px" onclick="sortBy('type')">Type<svg class="sort-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 10 12 16 18 10"/></svg></th>
                 <th class="sortable" data-sort="impact" style="width:70px" onclick="sortBy('impact')">Impact<svg class="sort-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 10 12 16 18 10"/></svg></th>
                 <th class="sortable" data-sort="confidence" style="width:70px" onclick="sortBy('confidence')">Confiance<svg class="sort-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 10 12 16 18 10"/></svg></th>
+                <th style="width:36px" title="Code ABC">Code</th>
                 <th style="width:55px">Assigné</th>
                 <th class="sortable" data-sort="detected" style="width:60px" onclick="sortBy('detected')">Détecté<svg class="sort-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 10 12 16 18 10"/></svg></th>
               </tr>
@@ -2817,6 +2835,9 @@ var currentAssignedFilter = null;
 var currentClusterFilter = false;
 var currentConfFilter = null;
 var currentReseauFilter = null;
+var currentPaysFilter = null;
+var currentCanalFilter = null;
+var currentCodeABFilter = null;
 var currentSportFilter = null;
 var moreFiltersOpen = false;
 var sevOrder = {critical:0, high:1, medium:2, low:3};
@@ -3025,6 +3046,9 @@ function getFilteredAlerts() {
     if (currentConfFilter){ if(currentConfFilter==='none'){ if(a.confidence) return false; } else if((a.confidence||'')!==currentConfFilter) return false; }
     if (currentReseauFilter && reseauOf(a)!==currentReseauFilter) return false;
     if (currentSportFilter && sportOf(a)!==currentSportFilter) return false;
+    if (currentPaysFilter){ var _loc=(a.location||'').toUpperCase(); var _pm={France:['W1','FR','LIL','PAR','FRANCE'],Allemagne:['W109','CDG','DORT','DE','ALLEMAGNE','DORTMUND'],Espagne:['ESP','ES','ESPAGNE'],Italie:['ITA','IT','ITALIE']}[currentPaysFilter]||[currentPaysFilter.toUpperCase()]; if(!_pm.some(function(k){return _loc.indexOf(k)>=0;})) return false; }
+    if (currentCanalFilter && (a.canal||'Retail') !== currentCanalFilter) return false;
+    if (currentCodeABFilter){ var _c=a.codeAB||['A','B','C'][a.id%3]; if(_c!==currentCodeABFilter) return false; }
     return true;
   });
 }
@@ -3096,10 +3120,26 @@ function filterByCluster(btn) {
 function filterByConf(key, btn){ if(currentConfFilter===key){currentConfFilter=null;btn.classList.remove('active');} else {currentConfFilter=key; document.querySelectorAll('#more-filters .filter-chip[data-fg=\"conf\"]').forEach(function(c){c.classList.remove('active');}); btn.classList.add('active');} closePanel(); renderCurrentView(); }
 function filterByReseau(val, btn){ if(currentReseauFilter===val){currentReseauFilter=null;btn.classList.remove('active');} else {currentReseauFilter=val; document.querySelectorAll('#more-filters .filter-chip[data-fg=\"reseau\"]').forEach(function(c){c.classList.remove('active');}); btn.classList.add('active');} closePanel(); renderCurrentView(); }
 function filterBySport(val, btn){ if(currentSportFilter===val){currentSportFilter=null;btn.classList.remove('active');} else {currentSportFilter=val; document.querySelectorAll('#more-filters .filter-chip[data-fg=\"sport\"]').forEach(function(c){c.classList.remove('active');}); btn.classList.add('active');} closePanel(); renderCurrentView(); }
+function filterByPays(pays, btn){
+  if(currentPaysFilter===pays){ currentPaysFilter=null; if(btn) btn.classList.remove('active'); }
+  else { currentPaysFilter=pays; document.querySelectorAll('.filter-chip[data-fg="pays"]').forEach(function(b){ b.classList.remove('active'); }); if(btn) btn.classList.add('active'); }
+  renderCurrentView();
+}
+function filterByCanal(canal, btn){
+  if(currentCanalFilter===canal){ currentCanalFilter=null; if(btn) btn.classList.remove('active'); }
+  else { currentCanalFilter=canal; document.querySelectorAll('.filter-chip[data-fg="canal"]').forEach(function(b){ b.classList.remove('active'); }); if(btn) btn.classList.add('active'); }
+  renderCurrentView();
+}
+function filterByCodeAB(code, btn){
+  if(currentCodeABFilter===code){ currentCodeABFilter=null; if(btn) btn.classList.remove('active'); }
+  else { currentCodeABFilter=code; document.querySelectorAll('.filter-chip[data-fg="codeab"]').forEach(function(b){ b.classList.remove('active'); }); if(btn) btn.classList.add('active'); }
+  renderCurrentView();
+}
 function clearAllFilters() {
   currentTypeFilter = null; currentSevFilter = null; currentLevelFilter = null;
   currentAssignedFilter = null; currentClusterFilter = false;
   currentConfFilter = null; currentReseauFilter = null; currentSportFilter = null;
+  currentPaysFilter = null; currentCanalFilter = null; currentCodeABFilter = null;
   document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
   document.querySelectorAll('#filter-bar .filter-chip:first-child').forEach(function(c) { c.classList.add('active'); });
   var sevBtn = document.querySelector('#filter-bar .icon-chip');
@@ -3184,6 +3224,9 @@ function ddTableRowsHtml(a){
     html+='<td>';
     var _ta=assigneeHtml(a); html+=_ta||'<div style="font-size:12px;color:var(--tq)">-</div>';
     html+='</td>';
+    var _cab=a.codeAB||['A','B','C'][a.id%3];
+    var _cabC={A:'var(--g600)',B:'var(--c500)',C:'var(--tq)'}[_cab]||'var(--tq)';
+    html+='<td><span style="font-size:11px;font-weight:800;color:'+_cabC+'">'+_cab+'</span></td>';
     html+='<td style="font-size:14px;color:var(--tq)">'+a.detected;
     // Quick actions overlay
     html+='<div class="row-actions" onclick="event.stopPropagation()">';
@@ -5032,6 +5075,26 @@ function homeKeyTrendsHtml(){
   spk.forEach(function(s){ h+='<div class="ck-spk-card home-spk-clk" onclick="homeGoReport(\''+s.go+'\')"><div class="ck-spk-l">'+s.l+'</div><div class="ck-spk-v">'+s.v+'</div>'+repSpark(s.d,s.c)+'</div>'; });
   return h+'</div>';
 }
+function homeProactiveSuggestionHtml(){
+  var suggestions=[
+    {icon:'🔁',count:4,pattern:ddT("Vous avez validé 4 fois la même correction de biais saisonnier ce mois","You've validated the same seasonal bias correction 4 times this month"),action:ddT('Créer une règle automatique','Create automatic rule'),onclick:"switchView('config');if(typeof switchCfgTab==='function')switchCfgTab('regles')"},
+    {icon:'⚡',count:3,pattern:ddT("3 alertes rupture sur Ski Alpin ont été validées sans ajustement en 2 semaines","3 stockout alerts on Alpine Ski validated without adjustment over 2 weeks"),action:ddT('Automatiser ce geste','Automate this action'),onclick:"showToast(ddT('Ouverture du flow de création de règle','Opening rule creation flow'))"},
+  ];
+  if(!suggestions.length) return '';
+  var h='<div style="margin-top:20px">';
+  h+='<div class="home-sec-head"><div class="home-sec-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c500)" stroke-width="2.5" style="vertical-align:-2px;margin-right:4px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'+ddT("Suggestions d'automatisation","Automation suggestions")+'</div></div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">';
+  suggestions.forEach(function(s){
+    h+='<div style="background:var(--c050);border:1px solid var(--c500);border-radius:var(--rs);padding:12px 16px;display:flex;align-items:center;gap:14px">';
+    h+='<div style="font-size:24px;flex-shrink:0">'+s.icon+'</div>';
+    h+='<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:var(--t)">'+s.pattern+'</div></div>';
+    h+='<button class="btn-sm" style="flex-shrink:0;border-color:var(--c500);color:var(--c500)" onclick="'+s.onclick+'">'+s.action+'</button>';
+    h+='<button style="background:none;border:none;cursor:pointer;color:var(--tq);font-size:16px;flex-shrink:0;padding:0 2px" onclick="this.parentElement.remove()" title="Ignorer">&times;</button>';
+    h+='</div>';
+  });
+  h+='</div></div>';
+  return h;
+}
 function renderHomeV2(){
   var el=document.getElementById('home-v2'); if(!el) return;
   var prios=homePrioAlerts();
@@ -6589,6 +6652,15 @@ function ddValidateSend(){
   else { switchView('alerting'); }
 }
 function ddRemoveLayer(id){ var isExtra=(dd.extraCurves||[]).some(function(c){return c.id===id;}); if(isExtra){ dd.extraCurves=dd.extraCurves.filter(function(c){return c.id!==id;}); } else { dd.removedCurves=dd.removedCurves||[]; if(dd.removedCurves.indexOf(id)<0) dd.removedCurves.push(id); } if(dd.trajVis) delete dd.trajVis[id]; renderDeepdive(); showToast(ddT('Couche supprimée','Layer deleted')); }
+function ddResetToReco(){
+  if(!ddBaseLine) return;
+  if(dd.extraCurves){ dd.extraCurves.forEach(function(c){ if(c.scenario&&ddBaseLine[c.id]) c.data=ddBaseLine[c.id].slice(); else if(c.scenario&&ddLineData.adj) c.data=ddLineData.adj.slice(); c._userEdited=false; }); }
+  if(ddLineData.adj&&ddBaseLine.adj) ddLineData.adj=ddBaseLine.adj.slice();
+  ddUserAdjusted=false;
+  dd._pilotageMode=false;
+  renderDeepdive();
+  showToast(ddT('Trajectoire réinitialisée sur la recommandation IA','Trajectory reset to IA recommendation'));
+}
 function ddLedgerEdit(cid,i,inp){ var c=ddActiveCurves().filter(function(x){return x.id===cid;})[0]; if(!c) return; var v=parseInt(inp.value,10); if(isNaN(v)) return; c.data[i]=v; c._userEdited=true; ddUserAdjusted=true; if(c.scenario) dd.activeScenId=cid; var mlv=ddLineData.ml[i]; var di=document.getElementById('tc-d-'+cid+'-'+i); if(di&&mlv) di.value=((v/mlv-1)*100).toFixed(1); var g=ddTrajGeo(); var pt=document.getElementById('pt-'+cid+'-'+i); if(pt) pt.setAttribute('cy',g.y(v)); var pl=document.getElementById('tl-'+cid); if(pl) pl.setAttribute('points',c.data.reduce(function(a,vv,k){ if(g.inWin(k)) a.push(g.x(k)+','+g.y(vv)); return a; },[]).join(' ')); ddRefreshKpiImpact(); }
 function ddLedgerEditDelta(cid,i,inp){ var c=ddActiveCurves().filter(function(x){return x.id===cid;})[0]; if(!c) return; var d=parseFloat((inp.value||'').replace(',','.')); if(isNaN(d)) return; var mlv=ddLineData.ml[i]; if(!mlv) return; var v=Math.round(mlv*(1+d/100)); c.data[i]=v; c._userEdited=true; ddUserAdjusted=true; if(c.scenario) dd.activeScenId=cid; var qi=document.getElementById('tc-'+cid+'-'+i); if(qi){ if(qi.tagName==='INPUT') qi.value=v; else qi.textContent=Number(v).toLocaleString('fr-FR'); } var g=ddTrajGeo(); var pt=document.getElementById('pt-'+cid+'-'+i); if(pt) pt.setAttribute('cy',g.y(v)); var pl=document.getElementById('tl-'+cid); if(pl) pl.setAttribute('points',c.data.reduce(function(a,vv,k){ if(g.inWin(k)) a.push(g.x(k)+','+g.y(vv)); return a; },[]).join(' ')); ddRefreshKpiImpact(); }
 function ddTrajVisInit(){ if(!dd.trajVis){ dd.trajVis={ml:true,y:false,y1:false,weather:false,events:false}; } }
@@ -6644,9 +6716,14 @@ function ddAlertScopeRow(){
 function ddTrajView(){
   ddTrajVisInit();
   var h='<div class="ga-traj">';
-  h+='<div class="traj-head"><div class="traj-title">'+ddScopeTitle()+'</div></div>';
+  h+='<div class="traj-head"><div class="traj-title">'+ddScopeTitle()+'</div>'
+    +(ddUserAdjusted?'<button class="btn-sm" style="border-color:var(--o500);color:var(--o500)" onclick="ddResetToReco()" title="'+ddT('Annuler les ajustements et revenir à la recommandation IA','Reset adjustments to IA recommendation')+'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.04"/></svg> '+ddT('Revenir à la reco IA','Reset to AI reco')+'</button>':'')
+    +'</div>';
   if(typeof ddAlertLayout==='function' && ddAlertLayout()) h+=ddAlertScopeRow();
-  h+='<div class="traj-layers">'+ddTrajLegendSettings()+'</div>';
+  h+='<div class="traj-layers" style="display:flex;align-items:center;justify-content:space-between">'+ddTrajLegendSettings()+'<div style="display:flex;align-items:center;gap:6px"><span style="font-size:12px;color:var(--tq)">'+ddT('Mode','Mode')+'</span>'
+    +'<button class="btn-sm'+(dd._pilotageMode?'':' btn-outline active')+'" onclick="dd._pilotageMode=false;renderDeepdive()" style="font-size:12px">'+ddT('Forecast','Forecast')+'</button>'
+    +'<button class="btn-sm'+(dd._pilotageMode?' btn-outline active':'')+'" onclick="dd._pilotageMode=true;renderDeepdive()" style="font-size:12px">'+ddT('Pilotage vs IA','Pilotage vs IA')+'</button>'
+    +'</div></div>';
   if(!(typeof ddAlertLayout==='function' && ddAlertLayout())) h+='<div id="dd-kpi-host">'+ddDeepKpiStrip()+'</div>';
   h+='<div class="traj-chart-wrap">'+ddTrajChartSVG()+'<div class="tl-tip" id="tl-tip"></div></div>';
   h+=ddTrajLedger();
@@ -6677,6 +6754,15 @@ function ddTrajChartSVG(){
     }
   });
   var dash={solid:'',dash:'7,5',dot:'1,5'};
+  // P3.4 — Confidence interval band (±10% around native forecast)
+  if(ddLineData&&ddLineData.ml&&(typeof dd._showCI==='undefined'||dd._showCI)){
+    var _ci=0.10;
+    var _pts_lo=[], _pts_hi=[];
+    ddLineData.ml.forEach(function(v,i){ if(g.inWin(i)){ _pts_hi.push(g.x(i)+','+g.y(Math.round(v*(1+_ci)))); _pts_lo.push(g.x(i)+','+g.y(Math.round(v*(1-_ci)))); } });
+    if(_pts_hi.length){ s+='<polygon points="'+_pts_hi.concat(_pts_lo.slice().reverse()).join(' ')+'" fill="#02BE8A" fill-opacity="0.08" stroke="none"/>'; }
+    s+='<polyline points="'+_pts_hi.join(' ')+'" fill="none" stroke="#02BE8A" stroke-width="1" stroke-dasharray="3,4" stroke-opacity="0.5"/>';
+    s+='<polyline points="'+_pts_lo.join(' ')+'" fill="none" stroke="#02BE8A" stroke-width="1" stroke-dasharray="3,4" stroke-opacity="0.5"/>';
+  }
   ddActiveCurves().forEach(function(c){
     if(!dd.trajVis[c.id]) return;
     var pts=c.data.reduce(function(a,v,i){ if(g.inWin(i)) a.push(g.x(i)+','+g.y(v)); return a; },[]).join(' ');
@@ -6687,6 +6773,19 @@ function ddTrajChartSVG(){
     c.data.forEach(function(v,i){ if(!g.inWin(i)) return; s+='<circle class="tl-pt'+(c.editable?' tl-pt-edit':'')+'" id="pt-'+c.id+'-'+i+'" cx="'+g.x(i)+'" cy="'+g.y(v)+'" r="'+(c.editable?5:3.4)+'" fill="'+c.color+'" stroke="#fff" stroke-width="1.5"'+(c.editable?' style="cursor:ns-resize" onmousedown="ddPtDown(event,\''+c.id+'\','+i+')"':' style="pointer-events:none"')+'/>'; });
   });
   if(dd.trajVis.weather){ var _lt=H-g.lane; s+='<line x1="'+padL+'" y1="'+_lt+'" x2="'+(W-padR)+'" y2="'+_lt+'" stroke="#E1E0DF" stroke-width="1"/>'; for(var _wi=g.winStart;_wi<=g.winEnd;_wi++){ var _wx=ddWeather[_wi]; if(!_wx) continue; var _cx=g.x(_wi); s+=ddWxIcon(_wx.c,_cx,_lt+12); var _ti=(dd.todayIdx!=null?dd.todayIdx:6); var _tc=_wx.tAbs>=6?'#C8780A':(_wx.tAbs<=1?'#3f6ea5':'#8a8a8a'); s+='<text x="'+_cx+'" y="'+(_lt+30)+'" text-anchor="middle" font-size="9.5" font-weight="700" fill="'+_tc+'">'+_wx.tAbs+'°</text>'; s+='<rect x="'+(_cx-g.step/2)+'" y="'+_lt+'" width="'+g.step+'" height="'+g.lane+'" fill="transparent" style="cursor:help" onmousemove="ddWxHover(event,'+_wi+')" onmouseleave="ddOvOut()"/>'; } }
+  // P2.2b — Pilotage vs IA retained curve overlay
+  if(dd._pilotageMode && ddLineData && ddLineData.adj && ddLineData.ml){
+    var _adjC=ddActiveCurves().filter(function(c){return c.id==='adj';})[0];
+    var _adjD=_adjC?_adjC.data:ddLineData.adj;
+    var _mlD=ddLineData.ml;
+    var _ph=_adjD.reduce(function(a,v,i){if(g.inWin(i)) a.push(g.x(i)+','+g.y(v)); return a;},[]);
+    var _ml=_mlD.reduce(function(a,v,i){if(g.inWin(i)) a.push(g.x(i)+','+g.y(v)); return a;},[]);
+    if(_ph.length&&_ml.length){
+      s+='<polygon points="'+_ph.concat(_ml.slice().reverse()).join(' ')+'" fill="#9333ea" fill-opacity="0.07" stroke="none"/>';
+      s+='<polyline points="'+_ph.join(' ')+'" fill="none" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="6,4" stroke-linecap="round"/>';
+      s+='<text x="'+(g.padL+8)+'" y="'+(g.padT+20)+'" font-size="10" fill="#9333ea" font-weight="700">'+ddT('Pilotage retenu','Retained pilotage')+'</text>';
+    }
+  }
   s+='</svg>';
   return s;
 }
@@ -7565,8 +7664,32 @@ function ddSetNotifFilter(f){ ddNotifFilter=f; ddRefreshNotifPanel(); }
 function ddNotifMarkRead(id){ var n=ddNotifs.find(function(x){return x.id===id;}); if(n) n.read=true; updateNotifBadge(); ddRefreshNotifPanel(); }
 function ddNotifIgnore(id){ ddNotifs=ddNotifs.filter(function(x){return x.id!==id;}); updateNotifBadge(); ddRefreshNotifPanel(); }
 function ddNotifReadAll(){ ddNotifs.forEach(function(n){n.read=true;}); updateNotifBadge(); ddRefreshNotifPanel(); }
+function opnSyncFromAlert(aid){
+  // Sync Operate New scope from the alert's data
+  var a=alerts.find(function(x){return x.id===aid;});
+  if(!a) return;
+  // Map severity to the best OPN_ALERTS entry
+  var sevMap={critical:['a1','a4'],high:['a3','d1'],medium:['a2','d2']};
+  var candidates=sevMap[a.severity]||['a1'];
+  // Prefer same type (reco vs dd) if possible
+  var opnA=null;
+  for(var i=0;i<candidates.length;i++){
+    var c=opnAlertById(candidates[i]);
+    if(c){ opnA=c; break; }
+  }
+  if(opnA){ opn.sel=opnA.id; opn.railOpen=true; opn.scn=null; }
+  // Also sync dd.scope fields so perim bar reflects alert context
+  if(typeof dd!=='undefined'){
+    if(!dd.scope) dd.scope={};
+    dd.scope.family=a.name||(opnA&&opnA.ref)||dd.scope.family||'';
+    dd.scope.region=a.location||(opnA&&opnA.wh)||dd.scope.region||'';
+    dd.scope.product=a.name||dd.scope.product||'';
+    dd.scope.warehouse=a.location||dd.scope.warehouse||'';
+  }
+}
 function ddNotifGoDeepdive(aid, focus){
   if(typeof switchView==='function') switchView('alerting');
+  if(typeof opnSyncFromAlert==='function') opnSyncFromAlert(aid);
   openDeepdive(aid,'alert'); dd.convMode='humans'; renderDeepdive();
   setTimeout(function(){
     if(focus){ var inp=document.getElementById('fp-collab-input'); if(inp){ inp.focus(); return; } }
@@ -7578,7 +7701,7 @@ function ddNotifGoDeepdive(aid, focus){
 function ddNotifMarkAlertRead(aid){ ddNotifs.forEach(function(n){ if(n.alertId===aid) n.read=true; }); updateNotifBadge(); }
 function ddNotifOpenA(aid){ ddNotifMarkAlertRead(aid); closePopover(); ddNotifGoDeepdive(aid,false); }
 function ddNotifReply(aid){ ddNotifMarkAlertRead(aid); closePopover(); ddNotifGoDeepdive(aid,true); }
-function ddNotifValidate(aid){ ddNotifMarkAlertRead(aid); closePopover(); if(typeof switchView==='function') switchView('alerting'); actValidate(aid,null); }
+function ddNotifValidate(aid){ ddNotifMarkAlertRead(aid); closePopover(); if(typeof switchView==='function') switchView('alerting'); if(typeof opnSyncFromAlert==='function') opnSyncFromAlert(aid); if(typeof renderOperateNew==='function') renderOperateNew(); actValidate(aid,null); }
 function ddNotifSeeAll(){ var saved=ddNotifFilter; ddNotifFilter='all'; var body=ddNotifBodyHtml(); ddNotifFilter=saved; closePopover(); ddActModal(ddT('Toutes les notifications','All notifications'), '<div style="max-height:56vh;overflow-y:auto;border:1px solid var(--border);border-radius:var(--rs)">'+body+'</div>', '<span class="sp"></span><button class="dd-btn" onclick="ddCloseAct()">'+ddT('Fermer','Close')+'</button>'); }
 
 // ============ Assistant IA (copilote) ============
@@ -7936,6 +8059,15 @@ var REP_NAV_OBJ=[
   {sec:'Signaux externes', secEn:'External signals', items:[
     ['ctx-weather','Météo','Weather'],
     ['ctx-events','Événements','Events']
+  ]},
+  {sec:'Réseau & Stock', secEn:'Network & Stock', items:[
+    ['stock-reseau','Stock réseau','Network stock'],
+    ['top-articles','Top articles','Top articles']
+  ]},
+  {sec:'Géographie', secEn:'Geography', items:[
+    ['geo-pays','Vue pays','Country view'],
+    ['geo-canal','Vue canal','Channel view'],
+    ['geo-milestones','Jalons saisonniers','Seasonal milestones']
   ]}
 ];
 var REP_DEFAULTS={
@@ -8002,6 +8134,169 @@ function alertBadgeHtml(metricKey,compact){
   var small=compact?'font-size:10px;padding:1px 5px':'font-size:11px;padding:2px 7px';
   return '<span style="'+small+';background:var(--rd400);color:#fff;border-radius:var(--rf);font-weight:700;margin-left:6px;vertical-align:middle">'+cnt+'⚠</span>';
 }
+function renderStockReseau(){
+  var nodes=[
+    {id:'cac1',label:'CAC Lille',level:0,stock:14200,cover:32,vs:-4,children:['car1','car2']},
+    {id:'cac2',label:'CAC Lyon',level:0,stock:9800,cover:27,vs:+2,children:['car3']},
+    {id:'car1',label:'CAR Paris',level:1,stock:4100,cover:28,vs:-6,children:[]},
+    {id:'car2',label:'CAR Bruxelles',level:1,stock:3600,cover:35,vs:+1,children:[]},
+    {id:'car3',label:'CAR Dortmund',level:1,stock:5200,cover:22,vs:-8,children:[]},
+  ];
+  var h='<div style="padding:16px 20px">';
+  h+='<div style="font-size:16px;font-weight:800;color:var(--t);margin-bottom:4px">'+ddT('Stock réseau','Network stock')+'</div>';
+  h+='<div style="font-size:13px;color:var(--tq);margin-bottom:20px">'+ddT('Distribution du stock par niveau CAC → CAR · Hiver Sports','Stock distribution CAC → CAR · Winter Sports')+'</div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px">';
+  nodes.filter(function(n){return n.level===0;}).forEach(function(cac){
+    var coverColor=cac.cover<25?'var(--rd400)':(cac.cover>40?'var(--o500)':'var(--g600)');
+    h+='<div style="background:var(--bg-alt);border-radius:var(--rs);padding:12px 16px;border:1px solid var(--border)">';
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+    h+='<div style="font-size:14px;font-weight:700;color:var(--t)">'+cac.label+'</div>';
+    h+='<div style="display:flex;gap:16px;font-size:13px"><span style="color:var(--tq)">'+Number(cac.stock).toLocaleString('fr-FR')+' PCE</span>';
+    h+='<span style="color:'+coverColor+';font-weight:700">'+cac.cover+'j</span>';
+    h+='<span style="color:'+(cac.vs<0?'var(--rd400)':'var(--g600)')+';font-size:12px">'+(cac.vs>0?'+':'')+cac.vs+'j vs N-1</span>';
+    h+='</div></div>';
+    // Progress bar
+    var pct=Math.min(100,cac.cover/60*100);
+    h+='<div style="height:6px;background:var(--border);border-radius:3px;margin-bottom:10px"><div style="height:100%;width:'+pct+'%;background:'+coverColor+';border-radius:3px"></div></div>';
+    // CAR children
+    h+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px">';
+    nodes.filter(function(c){return cac.children.indexOf(c.id)>=0;}).forEach(function(car){
+      var cc=car.cover<20?'var(--rd400)':(car.cover>35?'var(--o500)':'var(--g600)');
+      h+='<div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--rf);padding:8px 10px">';
+      h+='<div style="font-size:12px;font-weight:700;color:var(--tq);margin-bottom:4px">'+car.label+'</div>';
+      h+='<div style="font-size:13px;font-weight:700;color:var(--t)">'+Number(car.stock).toLocaleString('fr-FR')+' PCE</div>';
+      h+='<div style="display:flex;gap:8px;margin-top:2px"><span style="font-size:12px;color:'+cc+';font-weight:700">'+car.cover+'j</span>';
+      h+='<span style="font-size:11px;color:'+(car.vs<0?'var(--rd400)':'var(--g600)')+'">'+(car.vs>0?'+':'')+car.vs+'j</span></div>';
+      h+='</div>';
+    });
+    h+='</div></div>';
+  });
+  h+='</div></div>';
+  return h;
+}
+
+function renderTopArticles(){
+  var arts=[
+    {ref:'34220',name:'SNOWBOARDS ET FIXATIONS',sales:142000,fcGap:+8.2,impact:'48K€',codeAB:'A',vs:+12},
+    {ref:'08390',name:'AD SKI HEADWEAR',sales:98000,fcGap:-14.1,impact:'38K€',codeAB:'A',vs:-6},
+    {ref:'08612',name:'SKI DE RANDONNÉE',sales:87000,fcGap:+22.4,impact:'31K€',codeAB:'A',vs:+18},
+    {ref:'34541',name:'SKI DE PISTE HOMME',sales:76000,fcGap:-3.2,impact:'12K€',codeAB:'B',vs:+2},
+    {ref:'3327',name:'MASQUES DE SKI',sales:54000,fcGap:-18.7,impact:'28K€',codeAB:'B',vs:-11},
+    {ref:'3330',name:'LUGE',sales:31000,fcGap:+41.2,impact:'15K€',codeAB:'C',vs:+34},
+  ];
+  var h='<div style="padding:16px 20px">';
+  h+='<div style="font-size:16px;font-weight:800;color:var(--t);margin-bottom:4px">'+ddT('Top articles','Top articles')+'</div>';
+  h+='<div style="font-size:13px;color:var(--tq);margin-bottom:16px">'+ddT('Classement par ventes · Hiver Sports · Semaine en cours','Ranked by sales · Winter Sports · Current week')+'</div>';
+  h+='<table style="width:100%;border-collapse:collapse">';
+  h+='<thead><tr style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--tq);border-bottom:2px solid var(--border)">';
+  h+='<th style="padding:8px 12px;text-align:left">Réf.</th><th style="padding:8px 12px;text-align:left">Article</th><th style="padding:8px 12px;text-align:right">Ventes</th><th style="padding:8px 12px;text-align:right">vs N-1</th><th style="padding:8px 12px;text-align:right">Écart FC</th><th style="padding:8px 12px;text-align:right">Impact</th><th style="padding:8px 12px;text-align:center">Code</th></tr></thead>';
+  h+='<tbody>';
+  arts.forEach(function(a,i){
+    var fcColor=a.fcGap>0?'var(--rd400)':'var(--g600)';
+    var vsColor=a.vs>0?'var(--g600)':'var(--rd400)';
+    var cabC={A:'var(--g600)',B:'var(--c500)',C:'var(--tq)'}[a.codeAB];
+    h+='<tr style="border-bottom:1px solid var(--border);'+(i%2===0?'background:var(--bg-alt)':'')+'">';
+    h+='<td style="padding:10px 12px;font-size:12px;color:var(--tq)">'+a.ref+'</td>';
+    h+='<td style="padding:10px 12px;font-size:13px;font-weight:600;color:var(--t)">'+a.name+'</td>';
+    h+='<td style="padding:10px 12px;font-size:13px;font-weight:700;color:var(--t);text-align:right">'+Number(a.sales).toLocaleString('fr-FR')+'</td>';
+    h+='<td style="padding:10px 12px;font-size:13px;color:'+vsColor+';text-align:right;font-weight:600">'+(a.vs>0?'+':'')+a.vs+'%</td>';
+    h+='<td style="padding:10px 12px;font-size:13px;color:'+fcColor+';text-align:right;font-weight:600">'+(a.fcGap>0?'+':'')+a.fcGap.toFixed(1)+'%</td>';
+    h+='<td style="padding:10px 12px;font-size:13px;font-weight:700;color:var(--rd400);text-align:right">'+a.impact+'</td>';
+    h+='<td style="padding:10px 12px;text-align:center"><span style="font-weight:800;font-size:12px;color:'+cabC+'">'+a.codeAB+'</span></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table></div>';
+  return h;
+}
+
+function renderGeoVue(){
+  var pays=[
+    {name:'France',code:'FR',sales:312000,sr:94.2,vs:+3,alerts:4},
+    {name:'Allemagne',code:'DE',sales:187000,sr:91.8,vs:-2,alerts:7},
+    {name:'Espagne',code:'ES',sales:98000,sr:96.1,vs:+5,alerts:1},
+    {name:'Italie',code:'IT',sales:76000,sr:89.4,vs:-6,alerts:9},
+    {name:'Belgique',code:'BE',sales:54000,sr:95.0,vs:+1,alerts:2},
+  ];
+  var h='<div style="padding:16px 20px">';
+  h+='<div style="font-size:16px;font-weight:800;color:var(--t);margin-bottom:4px">'+ddT('Vue pays','Country view')+'</div>';
+  h+='<div style="font-size:13px;color:var(--tq);margin-bottom:16px">'+ddT('KPIs par marché · Hiver Sports · Saison en cours','KPIs by market · Winter Sports · Current season')+'</div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">';
+  pays.forEach(function(p){
+    var srColor=p.sr<90?'var(--rd400)':(p.sr>95?'var(--g600)':'var(--o500)');
+    var alertColor=p.alerts>5?'var(--rd400)':(p.alerts>2?'var(--o500)':'var(--g600)');
+    h+='<div style="background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--rs);padding:14px;cursor:pointer" onclick="filterByPays(&apos;'+p.name+'&apos;,null)">';
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
+    h+='<div style="font-size:14px;font-weight:800;color:var(--t)">'+p.name+'</div>';
+    if(p.alerts) h+='<span style="background:'+alertColor+';color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:var(--rf)">'+p.alerts+' alertes</span>';
+    h+='</div>';
+    h+='<div style="font-size:20px;font-weight:800;color:var(--t);margin-bottom:4px">'+Number(p.sales).toLocaleString('fr-FR')+'</div>';
+    h+='<div style="font-size:11px;color:var(--tq);margin-bottom:8px">Ventes (PCE)</div>';
+    h+='<div style="display:flex;gap:12px"><div><div style="font-size:13px;font-weight:700;color:'+srColor+'">'+p.sr+'%</div><div style="font-size:11px;color:var(--tq)">Taux de service</div></div>';
+    h+='<div><div style="font-size:13px;font-weight:700;color:'+(p.vs>0?'var(--g600)':'var(--rd400)')+'">'+(p.vs>0?'+':'')+p.vs+'%</div><div style="font-size:11px;color:var(--tq)">vs N-1</div></div></div>';
+    h+='</div>';
+  });
+  h+='</div></div>';
+  return h;
+}
+
+function renderCanalVue(){
+  var canaux=[
+    {name:'Retail',icon:'🏪',sales:298000,sr:93.5,dsi:34,vs:+2,share:52},
+    {name:'Ecom',icon:'💻',sales:187000,sr:97.1,dsi:28,vs:+18,share:33},
+    {name:'Omni',icon:'🔄',sales:86000,sr:91.2,dsi:41,vs:-3,share:15},
+  ];
+  var h='<div style="padding:16px 20px">';
+  h+='<div style="font-size:16px;font-weight:800;color:var(--t);margin-bottom:4px">'+ddT('Vue canal','Channel view')+'</div>';
+  h+='<div style="font-size:13px;color:var(--tq);margin-bottom:16px">'+ddT('Répartition omni / ecom / retail · Saison en cours','Omni/ecom/retail split · Current season')+'</div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">';
+  canaux.forEach(function(c){
+    var srC=c.sr<92?'var(--rd400)':(c.sr>96?'var(--g600)':'var(--o500)');
+    h+='<div style="background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--rs);padding:16px">';
+    h+='<div style="font-size:22px;margin-bottom:6px">'+c.icon+'</div>';
+    h+='<div style="font-size:15px;font-weight:800;color:var(--t);margin-bottom:2px">'+c.name+'</div>';
+    h+='<div style="font-size:11px;color:var(--tq);margin-bottom:12px">'+c.share+'% des ventes</div>';
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    ['sales','sr','dsi','vs'].forEach(function(k){
+      var labels={sales:'Ventes',sr:'Taux service',dsi:'DSI moyen',vs:'vs N-1'};
+      var vals={sales:Number(c.sales).toLocaleString('fr-FR'),sr:c.sr+'%',dsi:c.dsi+'j',vs:(c.vs>0?'+':'')+c.vs+'%'};
+      var colors={sales:'var(--t)',sr:srC,dsi:'var(--t)',vs:(c.vs>0?'var(--g600)':'var(--rd400)')};
+      h+='<div style="background:var(--bg);border-radius:var(--rf);padding:8px">';
+      h+='<div style="font-size:14px;font-weight:700;color:'+colors[k]+'">'+vals[k]+'</div>';
+      h+='<div style="font-size:11px;color:var(--tq)">'+labels[k]+'</div></div>';
+    });
+    h+='</div></div>';
+  });
+  h+='</div></div>';
+  return h;
+}
+
+function renderMilestones(){
+  var ms=[
+    {date:'S46',label:'Lancement hiver',type:'saison',color:'var(--c500)',done:true},
+    {date:'S48',label:'OPECO ski alpin',type:'opeco',color:'var(--o500)',done:true},
+    {date:'S50',label:'Vacances de Noël',type:'event',color:'var(--g600)',done:false},
+    {date:'S02',label:'Clôture commandes fournisseurs',type:'supply',color:'var(--rd400)',done:false},
+    {date:'S04',label:'OPECO fin de saison',type:'opeco',color:'var(--o500)',done:false},
+    {date:'S08',label:'Clôture saison hiver',type:'saison',color:'var(--c500)',done:false},
+  ];
+  var h='<div style="padding:16px 20px">';
+  h+='<div style="font-size:16px;font-weight:800;color:var(--t);margin-bottom:4px">'+ddT('Jalons saisonniers','Seasonal milestones')+'</div>';
+  h+='<div style="font-size:13px;color:var(--tq);margin-bottom:16px">'+ddT('Événements et milestones · Saison Hiver 2024-2025','Events and milestones · Winter Season 2024-2025')+'</div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px;position:relative">';
+  h+='<div style="position:absolute;left:62px;top:8px;bottom:8px;width:2px;background:var(--border);z-index:0"></div>';
+  ms.forEach(function(m){
+    h+='<div style="display:flex;align-items:center;gap:14px;position:relative;z-index:1">';
+    h+='<div style="width:52px;flex-shrink:0;text-align:right;font-size:12px;font-weight:700;color:'+(m.done?'var(--tq)':'var(--t)')+'">'+m.date+'</div>';
+    h+='<div style="width:14px;height:14px;border-radius:50%;background:'+(m.done?'var(--border)':m.color)+';border:2px solid '+(m.done?'var(--tq)':m.color)+';flex-shrink:0"></div>';
+    h+='<div style="background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--rf);padding:10px 14px;flex:1;opacity:'+(m.done?0.6:1)+'">';
+    h+='<div style="font-size:13px;font-weight:700;color:var(--t)">'+m.label+'</div>';
+    h+='<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:'+m.color+';margin-top:2px">'+m.type+'</div>';
+    h+='</div></div>';
+  });
+  h+='</div></div>';
+  return h;
+}
+
 function renderReports(){ renderRepNav(); renderRepMain(); }
 function renderRepNav(){
   var nav=document.getElementById('rep-nav'); if(!nav) return;
@@ -8020,10 +8315,22 @@ function renderRepNav(){
   nav.innerHTML=h;
 }
 function repToggleGrp(g){ repState.collapsed[g]=!repState.collapsed[g]; renderRepNav(); }
+function renderRepCustom(id){
+  var el=document.querySelector('.rep-main'); if(!el) return;
+  var html='';
+  if(id==='stock-reseau') html=renderStockReseau();
+  else if(id==='top-articles') html=renderTopArticles();
+  else if(id==='geo-pays') html=renderGeoVue();
+  else if(id==='geo-canal') html=renderCanalVue();
+  else if(id==='geo-milestones') html=renderMilestones();
+  if(html){ el.innerHTML=html; return true; }
+  return false;
+}
 function repGo(id){ repState.active=id; repState.page=1; repState.q=''; repState.sort=null; repState.metric='sales'; repState.drill=null; if(id==='ctx-weather') repState.showWeather=true; if(id==='ctx-events') repState.showEvents=true; var _d=(typeof REP_DEFAULTS!=='undefined')?REP_DEFAULTS[id]:null; if(_d){ if(_d.types) repState.types=_d.types.slice(); if(_d.unit) repState.unit=_d.unit; if(_d.split){ var _pal=['var(--c500)','var(--o500)','var(--g600)','#0891b2']; repState.cmps=_d.split.map(function(k,ix){return {key:k,color:_pal[ix%_pal.length],w:repCmpWeight(k)};}); } else { repState.cmps=[{key:'all',color:'var(--c500)',w:1}]; } } renderReports(); }
 function repTitle(id){ var t=['','']; REP_NAV.forEach(function(g){g.items.forEach(function(it){if(it[0]===id)t=[g.g,it[1]];});}); if(t[0]===''&&typeof REP_NAV_OBJ!=='undefined'){ REP_NAV_OBJ.forEach(function(sec){sec.items.forEach(function(it){if(it[0]===id)t=[ddT(sec.sec,sec.secEn||sec.sec),it[1]];});}); } return t; }
 
 function renderRepMain(){
+  if(renderRepCustom(repState.active)) return;
   var m=document.getElementById('rep-main'); if(!m) return;
   var id=repState.active; if(id==='cockpit'){ renderRepCockpit(); return; }
   var tt=repTitle(id); var built=(id==='biz-overview');
@@ -10622,6 +10929,7 @@ function renderHomeNew(){
   h+='<div class="home-sec-head" style="margin-top:22px"><div class="home-sec-title">'+ddT('Alertes en cours','Alerts in progress')+'</div><button class="home-box-link" onclick="switchView(\'alerting\')">'+ddT('Voir toutes les alertes →','See all alerts →')+'</button></div>';
   h+='<div class="home-new-kanban" style="margin-top:4px">'+opnKanbanHtml()+'</div>';
   h+=homeKeyTrendsHtml();
+  h+=homeProactiveSuggestionHtml();
   el.innerHTML=h;
 }
 
